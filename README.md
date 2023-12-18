@@ -9,13 +9,13 @@ Essa aplicação utiliza dos conceitos do paradigma de Orientação a Objetos e 
 * Oferecer uma experiência de usuário dinâmica e com uma interface gráfica agradável.
 
 ### Requisitos Funcionais
-* <strong>RF1:</strong> O sistema deve permitir que os usuários cadastrarem novos relatórios inserindo dados como título, descrição e anexo.
+* <strong>RF1:</strong> O sistema deve permitir que os usuários cadastrarem novos relatórios inserindo dados como título, descrição, data de cadastro e data de atualização.
 * <strong>RF2:</strong> Os usuários com permissões adequadas devem ser capazes de atualizar informações em relatórios existentes.
 * <strong>RF3:</strong> O sistema deve permitir que os usuários sejam capazes de pesquisar um relatório com base nos critérios de autor ou título.
 * <strong>RF4:</strong> O sistema deve oferecer a funcionalidade de exclusão de relatórios, permitindo que os usuários autorizados removam relatórios que não sejam mais necessários.  
 
 ### Tecnologias 
-* <strong>Back-end: </strong>Java 17, Spring Boot 3.2.0, PostgreSQL 16
+* <strong>Back-end: </strong>Java 17, Spring Boot 3.2.0, H2 Database
 * <strong>Front-end: </strong>Typescript, Vue.js 3, Vuetify 3
 
 ### Diagramas UML (feito com a ferramenta PlantUML)

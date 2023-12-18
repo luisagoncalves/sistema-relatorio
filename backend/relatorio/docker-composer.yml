@@ -1,0 +1,11 @@
+services:
+  postgres:
+    image: postgres:latest
+    restart: always
+    environment: 
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWROD=p0stgre$
+    ports: 
+      - '5432:5432'
+    command: echo "I'm running ${POSTGRES_DB}"
