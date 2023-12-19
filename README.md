@@ -15,7 +15,7 @@ Essa aplicação utiliza dos conceitos do paradigma de Orientação a Objetos e 
 * <strong>RF4:</strong> O sistema deve oferecer a funcionalidade de exclusão de relatórios, permitindo que os usuários autorizados removam relatórios que não sejam mais necessários.  
 
 ### Tecnologias 
-* <strong>Back-end: </strong>Java 17, Spring Boot 3.2.0, H2 Database
+* <strong>Back-end: </strong>Java 17, Spring Boot 3.2.0, PostgreSQL 16
 * <strong>Front-end: </strong>Typescript, Vue.js 3, Vuetify 3
 
 ### Diagramas UML (feito com a ferramenta PlantUML)

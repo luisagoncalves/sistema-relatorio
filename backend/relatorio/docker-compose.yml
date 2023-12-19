@@ -1,11 +1,13 @@
+version: '3.8'
+
 services:
   postgres:
+    container_name: postgres
     image: postgres:latest
     restart: always
     environment: 
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWROD=p0stgre$
+      - POSTGRES_PASSWORD=postgres
     ports: 
       - '5432:5432'
-    command: echo "I'm running ${POSTGRES_DB}"
