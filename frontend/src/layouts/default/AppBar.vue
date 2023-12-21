@@ -1,9 +1,9 @@
 <template>
   <v-app-bar 
     flat 
-    :elevation="2">
+    :elevation="1">
     <v-app-bar-nav-icon @click="openDrawer = !openDrawer" />
-    <v-app-bar-title>App Bar</v-app-bar-title>
+    <v-app-bar-title>Gerenciamento de Relatórios</v-app-bar-title>
 
     <v-spacer />
 
@@ -58,11 +58,11 @@ const { userSelected } = storeToRefs(userStore);
 const users = reactive([
   {
     id: 1,
-    role: 'Manager'
+    role: 'Gerente'
   }, 
   {
     id: 2,
-    role: 'Analyst'
+    role: 'Analista'
   }
 ]);
 
