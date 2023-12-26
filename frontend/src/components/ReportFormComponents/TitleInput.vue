@@ -1,5 +1,5 @@
 <template>
-    <v-text-field class="my-2" label="Título" :rules="rules" required />
+    <v-text-field color="#3949AB" class="my-2" label="Título" :rules="rules" required />
 </template>
 
 <script setup lang="ts">

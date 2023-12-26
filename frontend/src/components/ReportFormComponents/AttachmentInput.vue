@@ -1,3 +1,3 @@
 <template>
-    <v-file-input class="my-2" label="Anexo" />
+    <v-file-input color="#3949AB" class="my-2" label="Anexo" />
 </template>

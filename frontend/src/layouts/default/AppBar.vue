@@ -1,7 +1,8 @@
 <template>
   <v-app-bar 
     flat 
-    :elevation="1">
+    :elevation="1"
+    class="bg-primary">
     <v-app-bar-nav-icon @click="openDrawer = !openDrawer" />
     <v-app-bar-title>Gerenciamento de Relatórios</v-app-bar-title>
 

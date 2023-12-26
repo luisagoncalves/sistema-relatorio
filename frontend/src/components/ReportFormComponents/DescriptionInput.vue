@@ -1,5 +1,5 @@
 <template>
-    <v-textarea class="my-2" label="Descrição" :counter="1000" :rules="rules" required />
+    <v-textarea color="#3949AB" class="my-2" label="Descrição" :counter="1000" :rules="rules" required />
 </template>
 
 <script setup lang="ts">

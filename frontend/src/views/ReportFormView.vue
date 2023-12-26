@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <v-card>
+        <v-card flat>
             <v-card-title>Novo relatório</v-card-title>
             <v-card-item>
                 <v-form @submit.prevent>
