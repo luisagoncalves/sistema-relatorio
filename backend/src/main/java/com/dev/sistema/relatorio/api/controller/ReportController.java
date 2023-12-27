@@ -14,51 +14,61 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dev.sistema.relatorio.api.mapper.ReportMapper;
+import com.dev.sistema.relatorio.api.request.ReportRequest;
+import com.dev.sistema.relatorio.api.response.ReportResponse;
 import com.dev.sistema.relatorio.domain.model.Report;
 import com.dev.sistema.relatorio.domain.service.ReportService;
 
 @RestController
 @RequestMapping("/reports")
 public class ReportController {
-  
-  private final ReportService service;
 
-  public ReportController(ReportService service) {
+  private final ReportService service;
+  private final ReportMapper mapper;
+
+  public ReportController(ReportService service, ReportMapper mapper) {
     this.service = service;
+    this.mapper = mapper;
   }
 
   @PostMapping
-  public ResponseEntity<Report> saveReport(@RequestBody Report report){
+  public ResponseEntity<ReportResponse> saveReport(@RequestBody ReportRequest reportRequest) {
+    Report report = mapper.toEntity(reportRequest);
     Report savedReport = service.save(report);
-    return ResponseEntity.status(HttpStatus.CREATED).body(savedReport);
+    ReportResponse reportResponse = mapper.toResponse(savedReport);
+    return ResponseEntity.status(HttpStatus.CREATED).body(reportResponse);
   }
 
   @GetMapping
-  public ResponseEntity<List<Report>> getAllReports(){
+  public ResponseEntity<List<ReportResponse>> getAllReports() {
     List<Report> allReports = service.getAll();
-    return ResponseEntity.status(HttpStatus.OK).body(allReports);
+    List<ReportResponse> reportsResponses = mapper.toReportResponseList(allReports);
+    return ResponseEntity.status(HttpStatus.OK).body(reportsResponses);
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<Report> getReportById(@PathVariable Long id){
+  public ResponseEntity<ReportResponse> getReportById(@PathVariable Long id) {
     Optional<Report> report = service.getById(id);
 
     if (report.isEmpty()) {
       return ResponseEntity.notFound().build();
     }
 
-    return ResponseEntity.status(HttpStatus.OK).body(report.get());
+    ReportResponse reportResponse = mapper.toResponse(report.get());
+    return ResponseEntity.status(HttpStatus.OK).body(reportResponse);
   }
 
-  @PutMapping
-  public ResponseEntity<Report> updateReport(@RequestBody Report report){
-    Report updatedReport = service.save(report);
-    return ResponseEntity.status(HttpStatus.OK).body(updatedReport);
+  @PutMapping("/{id}")
+  public ResponseEntity<Void> updateReport(@RequestBody ReportRequest reportRequest, @PathVariable Long id) {
+    Report report = mapper.toEntity(reportRequest);
+    service.update(report, id);
+    return ResponseEntity.status(HttpStatus.OK).build();
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<Void> deleteReport(Long id){
+  public ResponseEntity<Void> deleteReport(@PathVariable Long id) {
     service.deleteById(id);
-    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    return ResponseEntity.status(HttpStatus.OK).build();
   }
 }

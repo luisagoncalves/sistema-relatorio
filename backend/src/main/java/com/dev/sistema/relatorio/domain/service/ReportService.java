@@ -7,10 +7,14 @@ import com.dev.sistema.relatorio.domain.model.Report;
 
 public interface ReportService {
   public Report save(Report report);
+
+  public void update(Report report, Long id);
   
   public Optional<Report> getById(Long id);
   
   public List<Report> getAll();
 
   public void deleteById(Long id);
+
+  public void deleteAll();
 }

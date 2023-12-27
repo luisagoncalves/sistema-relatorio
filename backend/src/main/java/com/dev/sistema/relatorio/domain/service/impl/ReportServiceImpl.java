@@ -26,6 +26,18 @@ public class ReportServiceImpl implements ReportService {
   }
 
   @Override
+  public void update(Report report, Long id) {
+    Optional<Report> updatedReport = repository.findById(id);
+    updatedReport.get().setId(id);
+    updatedReport.get().setTitle(report.getTitle());
+    updatedReport.get().setDescription(report.getDescription());
+    updatedReport.get().setAttachments(report.getAttachments());
+    updatedReport.get().setUpdatedAt(report.getUpdatedAt());
+
+    repository.save(updatedReport.get());
+  }
+
+  @Override
   public Optional<Report> getById(Long id) {
     return repository.findById(id);
   }
@@ -38,5 +50,10 @@ public class ReportServiceImpl implements ReportService {
   @Override
   public void deleteById(Long id) {
     repository.deleteById(id);
+  }
+
+  @Override
+  public void deleteAll() {
+    repository.deleteAll();
   }
 }
