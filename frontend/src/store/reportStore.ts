@@ -8,7 +8,9 @@ export const useReportStore = defineStore('report', () => {
     id: undefined,
     title: '',
     description: '',
-    anexos: []
+    attachments: [],
+    createdAt: undefined,
+    updatedAt: undefined
   })
 
   return {

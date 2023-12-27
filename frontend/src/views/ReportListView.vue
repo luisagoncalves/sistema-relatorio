@@ -4,9 +4,8 @@
         <v-data-table 
             no-data-text="Nenhum relatório encontrado."
             items-per-page-text="Total por página"
-            :page-text="pageText"
             :headers="headers"
-            :items="items"
+            :items="reports"
             :loading="isLoading"
             loading-text="Buscando relatórios..."
             item-key="id">
@@ -18,26 +17,29 @@
 <script setup lang="ts">
 import ReportListToolbar from '@/components/ReportListToolbar.vue';
 import { Report } from '@/model/Report';
+import { getAll } from '@/services/reportService';
 import { Ref, ref, onMounted } from 'vue';
 
-const pageText: any = ref('-');
 const isLoading: Ref<boolean> = ref(true);
 
-const listingItems = () => {
-    if (items.length == 0) {
-        setTimeout(() => {
-            isLoading.value = false;
-        }, 3000)
-    }
-}
-
-const items: Report[] = [];
+const reports = ref<Report[]>([]);
 
 const headers: any = [
     { title: 'Título', value: 'title', key: 'title', sortable: true , align: 'start' },
-    { title: 'Data de Cadastro', value: 'dataCadastro', key: 'dataCadastro' },
-    { title: 'Data de Atualização', value: 'dataAtualizacao', key: 'dataAtualizacao' }
+    { title: 'Data de Cadastro', value: 'createdAt', key: 'createdAt' },
+    { title: 'Data de Atualização', value: 'updatedAt', key: 'updatedAt' }
 ]
+
+const listingItems = async () => {
+    const response = await getAll();
+    reports.value = response;
+
+    if (reports.value.length > 0) {
+        setTimeout(() => {
+            isLoading.value = false;
+        }, 1000)
+    }
+}
 
 onMounted(() => {
     listingItems();

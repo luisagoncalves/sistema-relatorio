@@ -22,6 +22,8 @@ const createReport = () => {
     report.id = reportDefault.value.id;
     report.title = reportDefault.value.title;
     report.description = reportDefault.value.description;
+    report.createdAt = reportDefault.value.createdAt;
+    report.updatedAt = reportDefault.value.updatedAt;
     return report;
 }
 

@@ -11,3 +11,12 @@ export const save = async (report: Report) => {
     console.log(error);
   }
 }
+
+export const getAll = async () => {
+  try {
+    const response = await httpService.getAxiosClient().get(`${url}`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+}

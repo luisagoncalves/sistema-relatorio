@@ -4,7 +4,7 @@ export class Report {
   id: number | undefined;
   title?: string;
   description?: string;
-  anexos?: Attachment[];
+  attachments?: Attachment[];
   createdAt?: Date;
   updatedAt?: Date;
 }
