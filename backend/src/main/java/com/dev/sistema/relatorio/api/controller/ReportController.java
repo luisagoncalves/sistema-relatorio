@@ -20,6 +20,8 @@ import com.dev.sistema.relatorio.api.response.ReportResponse;
 import com.dev.sistema.relatorio.domain.model.Report;
 import com.dev.sistema.relatorio.domain.service.ReportService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/reports")
 public class ReportController {
@@ -33,7 +35,7 @@ public class ReportController {
   }
 
   @PostMapping
-  public ResponseEntity<ReportResponse> saveReport(@RequestBody ReportRequest reportRequest) {
+  public ResponseEntity<ReportResponse> saveReport(@Valid @RequestBody ReportRequest reportRequest) {
     Report report = mapper.toEntity(reportRequest);
     Report savedReport = service.save(report);
     ReportResponse reportResponse = mapper.toResponse(savedReport);

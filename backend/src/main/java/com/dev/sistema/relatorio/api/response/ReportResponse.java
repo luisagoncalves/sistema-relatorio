@@ -1,6 +1,6 @@
 package com.dev.sistema.relatorio.api.response;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.dev.sistema.relatorio.domain.model.Attachment;
@@ -15,10 +15,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReportResponse {
-    private Long id;
     private String title;
     private String description;
     private List<Attachment> attachments;
-    private OffsetDateTime createdAt;
-    private OffsetDateTime updatedAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

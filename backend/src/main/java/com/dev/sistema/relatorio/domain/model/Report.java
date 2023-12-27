@@ -1,6 +1,6 @@
 package com.dev.sistema.relatorio.domain.model;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -31,8 +31,8 @@ public class Report {
     private List<Attachment> attachments;
     
     @CreationTimestamp
-    private OffsetDateTime createdAt;
+    private LocalDateTime createdAt;
     
     @UpdateTimestamp
-    private OffsetDateTime updatedAt;
+    private LocalDateTime updatedAt;
 }
