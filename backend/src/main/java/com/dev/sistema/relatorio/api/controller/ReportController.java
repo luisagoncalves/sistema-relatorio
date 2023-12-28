@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dev.sistema.relatorio.api.mapper.ReportMapper;
 import com.dev.sistema.relatorio.api.request.ReportRequest;
 import com.dev.sistema.relatorio.api.response.ReportResponse;
+import com.dev.sistema.relatorio.config.exception.ReportControllerException;
 import com.dev.sistema.relatorio.domain.model.Report;
 import com.dev.sistema.relatorio.domain.service.ReportService;
 
@@ -35,7 +36,7 @@ public class ReportController {
   }
 
   @PostMapping
-  public ResponseEntity<ReportResponse> saveReport(@Valid @RequestBody ReportRequest reportRequest) {
+  public ResponseEntity<ReportResponse> saveReport(@RequestBody @Valid ReportRequest reportRequest) {
     Report report = mapper.toEntity(reportRequest);
     Report savedReport = service.save(report);
     ReportResponse reportResponse = mapper.toResponse(savedReport);
@@ -53,8 +54,8 @@ public class ReportController {
   public ResponseEntity<ReportResponse> getReportById(@PathVariable Long id) {
     Optional<Report> report = service.getById(id);
 
-    if (report.isEmpty()) {
-      return ResponseEntity.notFound().build();
+    if (!report.get().getId().equals(id) || report.isEmpty()) {
+      throw new ReportControllerException("The report was not found");
     }
 
     ReportResponse reportResponse = mapper.toResponse(report.get());
@@ -70,6 +71,12 @@ public class ReportController {
 
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> deleteReport(@PathVariable Long id) {
+    Optional<Report> report = service.getById(id);
+
+    if (!report.get().getId().equals(id)) {
+      throw new ReportControllerException("The report was not found");
+    }
+
     service.deleteById(id);
     return ResponseEntity.status(HttpStatus.OK).build();
   }
