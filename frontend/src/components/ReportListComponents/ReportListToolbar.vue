@@ -4,6 +4,10 @@
 
         <v-spacer />
 
-        <v-btn prepend-icon="mdi-plus" text="Novo" to="form" color="#3949AB" variant="text"/>
+        <v-btn 
+            prepend-icon="mdi-plus" 
+            text="Novo" 
+            to="form" 
+            color="#FFC107" />
     </v-toolbar>
 </template>
