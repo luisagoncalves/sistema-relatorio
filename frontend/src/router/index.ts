@@ -13,7 +13,7 @@ const routes = [
         component: ReportListView
       },
       {
-        path: '/form',
+        path: '/form/:id',
         name: 'ReportFormView',
         component: () => import('@/views/ReportFormView.vue')
       },

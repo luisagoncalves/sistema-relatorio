@@ -2,7 +2,7 @@
   <v-app>
     <default-bar />
 
-    <default-nav-drawer />
+    <!-- <default-nav-drawer /> -->
 
     <default-view />
   </v-app>
@@ -10,6 +10,6 @@
 
 <script lang="ts" setup>
   import DefaultBar from './AppBar.vue'
-  import DefaultNavDrawer from './NavigationDrawer.vue'
+  //import DefaultNavDrawer from './NavigationDrawer.vue'
   import DefaultView from './View.vue'
 </script>

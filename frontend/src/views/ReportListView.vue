@@ -6,14 +6,15 @@
             items-per-page-text="Total por página" 
             :headers="headers"
             :items="reports" 
-            :loading="isLoading" 
-            loading-text="Buscando relatórios..." 
             item-key="id">
 
+            <template v-slot:[`item.title`]="{ item }">
+                <ReportViewButton :titulo="item.title" :report-id="item.id" />
+            </template>
+
             <template v-slot:[`item.acoes`]="{ item }">
-                <ReportViewButton />
-                <ReportEditButton  />
-                <ReportDeleteButton @click="removeReport(item.id)" /> 
+                <ReportEditButton :report-id="item.id" />
+                <ReportDeleteButton @delete-item="removeReport(item.id)" /> 
             </template>
         </v-data-table>
     </v-card>
@@ -25,32 +26,23 @@ import ReportViewButton from '@/components/ReportListComponents/ReportViewButton
 import ReportListToolbar from '@/components/ReportListComponents/ReportListToolbar.vue';
 import { Report } from '@/model/Report';
 import { getAll, remove } from '@/services/reportService';
-import { Ref, ref, onMounted } from 'vue';
-
-const isLoading: Ref<boolean> = ref(true);
+import { ref, onMounted } from 'vue';
 
 const reports = ref<Report[]>([]);
 
 const headers: any = [
-    { title: 'Título', value: 'title', key: 'title', sortable: true, align: 'start' },
-    { title: 'Data de Cadastro', value: 'createdAt', key: 'createdAt' },
-    { title: 'Data de Atualização', value: 'updatedAt', key: 'updatedAt' },
-    { title: 'Ações', value: 'id', key: 'acoes' }
+    { title: 'Título', value: 'id', key: 'title', align: 'start' },
+    { title: 'Ações', value: 'id', key: 'acoes', sortable: false }
 ]
 
 const listingReports = async () => {
     const response = await getAll();
     reports.value = response;
-
-    if (reports.value.length > 0) {
-        setTimeout(() => {
-            isLoading.value = false;
-        }, 1000)
-    }
 }
 
 const removeReport = async (id: number) => {
     await remove(id);
+    await listingReports();
 }
 
 onMounted(() => {

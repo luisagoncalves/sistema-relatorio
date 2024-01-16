@@ -7,7 +7,14 @@
         <v-btn 
             prepend-icon="mdi-plus" 
             text="Novo" 
-            to="form" 
-            color="#FFC107" />
+            to="/form/novo" 
+            @click="isEditing = true"/>
     </v-toolbar>
 </template>
+<script lang="ts" setup>
+import { useReportStore } from '@/store/reportStore';
+import { storeToRefs } from 'pinia';
+
+const reportStore = useReportStore();
+const { isEditing } = storeToRefs(reportStore);
+</script>

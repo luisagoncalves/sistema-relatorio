@@ -13,7 +13,9 @@ export const useReportStore = defineStore('report', () => {
     updatedAt: undefined
   })
 
+  const isEditing = ref(false);
   return {
-    reportDefault
+    reportDefault,
+    isEditing
   }
 })

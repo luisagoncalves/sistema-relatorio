@@ -1,17 +1,17 @@
 <template>
-  <v-tooltip 
-    text="Editar" 
-    location="top">
+  <v-tooltip text="Editar" location="top">
     <template v-slot:activator="{ props }">
-      <v-btn 
-        v-bind="props" 
-        icon 
-        flat 
-        class="bg-transparent">
-        <v-icon 
-          icon="mdi-pencil"
-          color="#3949AB" />
-      </v-btn>
+      <v-btn v-bind="props" icon="mdi-pencil" flat :to="`/form/${reportId}`" @click="isEditing = true" />
     </template>
   </v-tooltip>
 </template>
+
+<script setup lang="ts">
+import { useReportStore } from '@/store/reportStore';
+import { storeToRefs } from 'pinia';
+
+defineProps(['reportId'])
+
+const reportStore = useReportStore();
+const { isEditing } = storeToRefs(reportStore);
+</script>
