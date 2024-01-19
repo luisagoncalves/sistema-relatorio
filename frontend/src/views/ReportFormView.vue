@@ -4,7 +4,7 @@
             <v-card-title v-if="reportDefault.id != null && route.params['id'] != 'novo'">Relatório {{ reportDefault.id }}</v-card-title>
             <v-card-title v-else>Novo relatório</v-card-title>
             <v-card-item>
-                <v-form @submit.prevent :readonly="!isEditing">
+                <v-form :readonly="!isEditing">
                     <TitleInput />
                     <DescriptionInput />
                     <AttachmentInput />

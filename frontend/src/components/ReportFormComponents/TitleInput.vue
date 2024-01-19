@@ -5,6 +5,7 @@
 <script setup lang="ts">
 import { useReportStore } from '@/store/reportStore';
 import { storeToRefs } from 'pinia';
+import { onMounted } from 'vue';
 
 const reportStore = useReportStore();
 const { reportDefault } = storeToRefs(reportStore);
@@ -12,4 +13,8 @@ const { reportDefault } = storeToRefs(reportStore);
 const rules = [
     (v: string | any[]) => !!v || 'Campo obrigatório.',
 ];
+
+onMounted(() => {
+    reportDefault.value.title = '';
+})
 </script>

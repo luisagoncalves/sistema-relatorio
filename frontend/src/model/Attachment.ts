@@ -1,5 +1,5 @@
 export class Attachment {
-  id: number
+  id: number | undefined
   description: string
   reportId: number
 

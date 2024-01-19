@@ -18,4 +18,5 @@ const emit = defineEmits(['deleteItem']);
 const deleteItem = async () => {
   await emit('deleteItem');
 }
+
 </script>

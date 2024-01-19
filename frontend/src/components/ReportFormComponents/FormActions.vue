@@ -14,12 +14,15 @@
 
 <script setup lang="ts">
 import router from '@/router';
-import { Report } from '@/model/Report'
-import { getById, save, update } from '@/services/reportService'
+import { Report } from '@/model/Report';
+import { getById, save, update } from '@/services/reportService';
+import { useLayoutStore } from '@/store/layoutStore';
 import { useReportStore } from '@/store/reportStore';
 import { storeToRefs } from 'pinia';
 import { onMounted } from 'vue';
 import { useRoute } from 'vue-router';
+
+const snackbarStore = useLayoutStore();
 
 const route = useRoute();
 const reportStore = useReportStore();
@@ -52,9 +55,13 @@ const getReportById = async (id: string | string[]) => {
 
 const saveReport = async () => {
     if (route.params['id'] != null && route.params['id'] != 'novo') {
-        await update(updateReport());
+        await update(updateReport())
+            .then(() => snackbarStore.createSnackbar('success', 'Relatório atualizado com sucesso!'))
+            .catch(() => snackbarStore.createSnackbar('error', 'Erro ao atualizar relatório. Tente novamente.'));
     } else {
-        await save(createReport());
+        await save(createReport())
+            .then(() => snackbarStore.createSnackbar('success', 'Relatório cadastrado com sucesso!'))
+            .catch(() => snackbarStore.createSnackbar('error', 'Erro ao cadastrar relatório. Tente novamente.'));
     }
     router.push('/reports');
 }
