@@ -10,12 +10,13 @@ import io.swagger.v3.oas.models.info.Info;
 @Configuration
 @OpenAPIDefinition
 public class SwaggerOpenApiConfig {
-  
-  @Bean
-    public OpenAPI baseOpenAPI(){
+
+    //Path: http://localhost:8080/swagger-ui/index.html
+    @Bean
+    public OpenAPI baseOpenAPI() {
         return new OpenAPI().info(new Info()
-                            .title("Sistema de Gerenciamento de Relatórios")
-                            .version("1.0.0").description("Documentação da API com Swagger"));
+                .title("Sistema de Gerenciamento de Relatórios")
+                .version("1.0.0").description("Documentação da API com Swagger"));
     }
 }
              

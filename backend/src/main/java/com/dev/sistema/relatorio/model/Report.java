@@ -1,7 +1,8 @@
-package com.dev.sistema.relatorio.domain.model;
+package com.dev.sistema.relatorio.model;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -21,18 +22,13 @@ import lombok.Data;
 public class Report {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
+    private UUID id;
     private String title;
-    
     private String description;
-    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "report")
     private List<Attachment> attachments;
-    
     @CreationTimestamp
     private LocalDateTime createdAt;
-    
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 }

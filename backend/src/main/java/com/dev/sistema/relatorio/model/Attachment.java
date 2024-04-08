@@ -1,4 +1,4 @@
-package com.dev.sistema.relatorio.domain.model;
+package com.dev.sistema.relatorio.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,13 +10,15 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
+import java.util.UUID;
+
 @Table(name = "attachment")
 @Entity
 @Data
 public class Attachment{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private UUID id;
     
     @Column(name = "description_base64")
     private String description;
