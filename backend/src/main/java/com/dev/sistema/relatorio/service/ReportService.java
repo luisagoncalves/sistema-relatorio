@@ -8,13 +8,13 @@ import com.dev.sistema.relatorio.model.Report;
 import org.springframework.data.domain.Page;
 
 public interface ReportService {
-  public Report saveReport(ReportDTO reportDto);
+    public Report saveReport(ReportDTO reportDto);
 
-  //public void updateReport(ReportDTO reportDto, UUID id);
+    public void updateReport(ReportDTO reportDto, UUID id);
 
-  public ReportDTO getReportById(UUID id);
-  
-  public Page<Report> getAllReports(String search, Integer page, Integer pageSize);
+    public ReportDTO getReportById(UUID id);
 
-  public void deleteReportById(UUID id);
+    public Page<Report> getAllReports(String search, Integer page, Integer pageSize);
+
+    public void deleteReportById(UUID id);
 }
