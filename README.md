@@ -7,7 +7,7 @@ Essa aplicação utiliza dos conceitos do paradigma de Orientação a Objetos e 
 * <strong>RF2:</strong> O sistema deve permitir a pesquisa de um ou mais relatórios com base no título do relatório.
   
 #### Tecnologias e Ferramentas
-* <strong>Back-end: </strong>Java 17, Spring Boot , H2 Database
+* <strong>Back-end: </strong>Java 17, Spring Boot , H2 Database, Swagger
 * <strong>Front-end: </strong>Typescript, Vue.js 3, Vuetify
 * <strong>Desenvolvimento: </strong>IntelliJ IDEA e WebStorm
   
@@ -18,6 +18,7 @@ Essa aplicação utiliza dos conceitos do paradigma de Orientação a Objetos e 
   ```bash
   mvn spring-boot:run
   ```
+  * URL para documentação da API no Swagger: http://localhost:8080/swagger-ui/index.html
 * <strong>Front-end</strong>
   * Para baixar e instalar as dependências do projeto: 
   ```bash
