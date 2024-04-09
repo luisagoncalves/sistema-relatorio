@@ -1,9 +1,5 @@
-import axios, { AxiosHeaders, AxiosRequestConfig, AxiosRequestHeaders, InternalAxiosRequestConfig } from 'axios';
+import axios, { AxiosHeaders } from 'axios';
 import { AxiosInstance } from 'axios';
-
-interface AdaptAxiosRequestConfig extends AxiosRequestConfig {
-  headers: AxiosRequestHeaders
-}
 
 const instance = axios.create({
   baseURL: 'http://localhost:8080/',

@@ -5,6 +5,4 @@ export class Report {
   title?: string;
   description?: string;
   attachments?: Attachment[];
-  createdAt?: Date;
-  updatedAt?: Date;
 }

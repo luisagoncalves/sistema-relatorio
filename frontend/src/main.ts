@@ -6,7 +6,6 @@
 
 // Components
 import App from './App.vue'
-import { VDataTable } from 'vuetify/lib/labs/components.mjs'
 
 // Composables
 import { createApp } from 'vue'
@@ -15,8 +14,6 @@ import { createApp } from 'vue'
 import { registerPlugins } from '@/plugins'
 
 const app = createApp(App);
-
-app.component('VDataTable', VDataTable);
 
 registerPlugins(app);
 
