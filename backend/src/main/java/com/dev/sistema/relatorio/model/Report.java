@@ -4,16 +4,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
 import lombok.Data;
 
 @Table(name = "report")
@@ -27,6 +21,7 @@ public class Report {
     private String description;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "report")
     private List<Attachment> attachments;
+    @Column(updatable = false)
     @CreationTimestamp
     private LocalDateTime createdAt;
     @UpdateTimestamp
