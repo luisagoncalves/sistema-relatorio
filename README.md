@@ -1,6 +1,8 @@
 # Sistema de Gerenciamento de Relatórios
 #### Status do projeto: em andamento.
-Essa aplicação utiliza dos conceitos do paradigma de Orientação a Objetos e da matriz de operações CRUD (Create, Read, Update e Delete) em um relatório.
+Essa aplicação utiliza dos conceitos do paradigma de Orientação a Objetos e das operações de criação, leitura, atualização e deleção em um relatório.
+
+Na camada de apresentação, foi desenvolvido duas telas simples para que o usuário possa interagir de forma intuitiva com o sistema. Já as regras da aplicação, foram modeladas em classes e serviços que utilizam dos métodos HTTP para receber e entregar os dados ao usuário.
 
 #### Requisitos Funcionais
 * <strong>RF1:</strong> O sistema deve permitir o cadastro, a visualização, a atualização e a exclusão de relatórios. As ações de cadastrar, visualizar e atualizar são pertinentes aos campos título, descrição e anexos.
