@@ -28,7 +28,7 @@ Na camada de apresentação, foi desenvolvido duas telas simples para que o usu�
   ```
   * Para rodar a aplicação:
   ```bash
-  npm run dev.
+  npm run dev
   ```
 
 
