@@ -2,13 +2,10 @@ package com.dev.sistema.relatorio.service.impl;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import com.dev.sistema.relatorio.dto.ReportDTO;
 import com.dev.sistema.relatorio.mapper.ReportIO;
 import com.dev.sistema.relatorio.mapper.ReportMapper;
-import jakarta.persistence.Converter;
-import org.modelmapper.spi.MappingContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -45,7 +42,7 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public Page<Report> getAllReports(String search, Integer page, Integer pageSize) {
+    public Page<Report> getAllReports(Integer page, Integer pageSize) {
         Pageable pageRequest = createPageRequestUsing(page, pageSize);
 
         List<Report> reports = repository.findAll();
@@ -57,7 +54,7 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public ReportDTO getReportById(UUID id) {
+    public ReportDTO getReportById(Integer id) {
         Optional<Report> optionalReport = repository.findById(id);
         Report report = null;
         if (optionalReport.isPresent()) {
@@ -68,7 +65,7 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     @Transactional
-    public void updateReport(ReportDTO reportDto, UUID id) {
+    public void updateReport(ReportDTO reportDto, Integer id) {
         Optional<Report> report = repository.findById(id);
         if (report.isPresent()) {
             try {
@@ -83,7 +80,7 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     @Transactional
-    public void deleteReportById(UUID id) {
+    public void deleteReportById(Integer id) {
         Optional<Report> report = repository.findById(id);
         if (report.isPresent()) {
             try {

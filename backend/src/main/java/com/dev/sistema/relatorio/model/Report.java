@@ -2,7 +2,6 @@ package com.dev.sistema.relatorio.model;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -16,7 +15,7 @@ import lombok.Data;
 public class Report {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    private Integer id;
     private String title;
     private String description;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "report")
