@@ -5,7 +5,7 @@
       <v-card-title v-else>Novo relatório</v-card-title>
 
       <v-card-item>
-        <v-form>
+        <v-form ref="form">
           <v-text-field color="#3949AB" class="my-2" clearable label="Título" :rules="titleRules" required
                         v-model="report.title"/>
           <v-textarea color="#3949AB" class="my-2" clearable label="Descrição" :counter="1000" :rules="descriptionRules"
@@ -15,10 +15,10 @@
       </v-card-item>
 
       <v-card-actions>
-        <v-btn type="reset" class="mt-2" text="Limpar"/>
+        <v-btn type="reset" class="mt-2" text="Limpar" @click="resetForm()"/>
         <v-spacer/>
-        <v-btn type="reset" class="mt-2" text="Cancelar" to="/reports"/>
-        <v-btn type="submit" class="mt-2" text="Salvar" @click.prevent="saveReport()"/>
+        <v-btn type="reset" class="mt-2" text="Cancelar" to="/reports" />
+        <v-btn class="mt-2" text="Salvar" @click="saveReport()" />
       </v-card-actions>
     </v-card>
   </v-container>
@@ -41,7 +41,7 @@ const titleRules = [
 
 const descriptionRules = [
   (v: string | any[]) => !!v || 'Campo obrigatório.',
-  (v: string | any[]) => v.length <= 1000 || 'O limite de 1000 caracteres foi atingido.',
+  (v: string | any[]) => v.length <= 255 || 'O limite de 255 caracteres foi atingido.',
 ];
 
 const report = ref<Report>({
@@ -68,33 +68,38 @@ const updateReport = () => {
 }
 
 const getReportById = async (id: string | string[]) => {
-  console.log("id: ", id)
   const reportSearched = await getById(id);
   report.value.id = reportSearched.data.id;
   report.value.title = reportSearched.data.title;
   report.value.description = reportSearched.data.description;
   report.value.attachments = reportSearched.data.attachments;
-  console.log(reportSearched)
 }
 
+const form = ref();
 const saveReport = async () => {
-  if (route.params['id'] != 'novo') {
-    const response = await update(updateReport(), route.params['id'])
-    if (response.status == 200) {
-      snackbarStore.createSnackbar('success', 'Relatório atualizado com sucesso!');
-      await router.push('/home');
+  if(form.value.validate()){
+    if (route.params['id'] != 'novo' ) {
+      const response = await update(updateReport(), route.params['id'])
+      if (response.status == 200) {
+        snackbarStore.createSnackbar('success', 'Relatório atualizado com sucesso!');
+        await router.push('/reports');
+      } else {
+        snackbarStore.createSnackbar('error', 'Erro ao atualizar relatório. Tente novamente.');
+      }
     } else {
-      snackbarStore.createSnackbar('error', 'Erro ao atualizar relatório. Tente novamente.');
+      const response = await save(createReport());
+      if (response.status == 201) {
+        snackbarStore.createSnackbar('success', 'Relatório cadastrado com sucesso!');
+        await router.push('/reports');
+      } else {
+        snackbarStore.createSnackbar('error', 'Erro ao cadastrar relatório. Tente novamente.');
+      }
     }
-  } else {
-    const response = await save(createReport());
-    if (response.status == 201) {
-      snackbarStore.createSnackbar('success', 'Relatório cadastrado com sucesso!');
-      await router.push('/home');
-    } else {
-      snackbarStore.createSnackbar('error', 'Erro ao cadastrar relatório. Tente novamente.')
-    }
-  }
+  } 
+}
+
+const resetForm = () => {
+  form.value.reset();
 }
 
 onBeforeMount(async () => {
