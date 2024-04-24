@@ -5,8 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import com.dev.sistema.relatorio.model.Report;
 
-import java.util.UUID;
-
 @Repository
 public interface ReportRepository extends JpaRepository<Report, Integer>{
 

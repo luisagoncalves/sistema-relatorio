@@ -53,19 +53,19 @@ public class ReportResource {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<ReportDTO> getReportById(@PathVariable Integer id) {
+  public ResponseEntity<ReportDTO> getReportById(@PathVariable UUID id) {
     ReportDTO report = service.getReportById(id);
     return ResponseEntity.status(HttpStatus.OK).body(report);
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<Void> updateReport(@RequestBody ReportDTO reportDto, @PathVariable Integer id) {
+  public ResponseEntity<Void> updateReport(@RequestBody ReportDTO reportDto, @PathVariable UUID id) {
     service.updateReport(reportDto, id);
     return ResponseEntity.status(HttpStatus.OK).build();
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<Void> deleteReport(@PathVariable Integer id) {
+  public ResponseEntity<Void> deleteReport(@PathVariable UUID id) {
     service.deleteReportById(id);
     return ResponseEntity.status(HttpStatus.OK).build();
   }
