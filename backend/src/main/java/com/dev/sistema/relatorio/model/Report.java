@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.UUID;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -13,10 +15,12 @@ import lombok.Data;
 @Table(name = "report")
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Report {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    private Integer id;
     private String title;
     private String description;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "report")
@@ -26,4 +30,7 @@ public class Report {
     private LocalDateTime createdAt;
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    public Report(Integer id, String title, String description, List<Attachment> attachments) {
+    }
 }

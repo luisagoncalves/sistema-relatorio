@@ -1,13 +1,18 @@
 package com.dev.sistema.relatorio.service.impl;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import com.dev.sistema.relatorio.dto.ReportDTO;
 import com.dev.sistema.relatorio.mapper.ReportIO;
 import com.dev.sistema.relatorio.mapper.ReportMapper;
+import com.dev.sistema.relatorio.model.Attachment;
 import jakarta.persistence.Converter;
+import org.jboss.logging.Logger;
 import org.modelmapper.spi.MappingContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -19,6 +24,7 @@ import com.dev.sistema.relatorio.model.Report;
 import com.dev.sistema.relatorio.repository.ReportRepository;
 import com.dev.sistema.relatorio.service.ReportService;
 import jakarta.transaction.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @Transactional
@@ -40,6 +46,12 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public Report saveReport(ReportDTO reportDto) {
+        boolean existsReport = repository.existsById(reportDto.getId());
+
+        if (existsReport) {
+            Logger.getLogger("Já existe um relatório com id: " + reportDto.getId());
+        }
+
         Report reportEntity = reportMapper.toEntity(reportDto);
         return repository.save(reportEntity);
     }
@@ -57,40 +69,42 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public ReportDTO getReportById(UUID id) {
-        Optional<Report> optionalReport = repository.findById(id);
-        Report report = null;
-        if (optionalReport.isPresent()) {
-            report = optionalReport.get();
+    public ReportDTO getReportById(Integer id) {
+        Optional<Report> reportSearched = repository.findById(id);
+        if (reportSearched.isEmpty()) {
+            throw new RuntimeException("O relatório não foi encontrado");
         }
-        return reportMapper.toDto(report);
+        return reportMapper.toDto(reportSearched.get());
     }
 
     @Override
     @Transactional
-    public void updateReport(ReportDTO reportDto, UUID id) {
-        Optional<Report> report = repository.findById(id);
-        if (report.isPresent()) {
-            try {
-                Report updatedReport = reportIO.mapTo(reportDto);
-                updatedReport.setId(report.get().getId());
-                repository.save(updatedReport);
-            } catch (Exception e) {
-                System.out.println("Error to update report " + report.get().getId());
-            }
+    public void updateReport(ReportDTO reportDto, Integer id) {
+        Optional<Report> reportSearched = repository.findById(id);
+        if (reportSearched.isEmpty()) {
+            throw new RuntimeException("O relatório não foi encontrado");
+        }
+        try {
+            Report updatedReport = reportIO.mapTo(reportDto);
+            updatedReport.setId(reportSearched.get().getId());
+            repository.save(updatedReport);
+        } catch (Exception e) {
+            System.out.println("Error to update report " + reportSearched.get().getId());
         }
     }
 
     @Override
     @Transactional
-    public void deleteReportById(UUID id) {
-        Optional<Report> report = repository.findById(id);
-        if (report.isPresent()) {
-            try {
-                repository.deleteById(id);
-            } catch (Exception e) {
-                System.out.println("Error to delete report " + report.get().getId());
-            }
+    public void deleteReportById(Integer id) {
+        Optional<Report> reportSearched = repository.findById(id);
+        if (reportSearched.isPresent()) {
+            throw new RuntimeException("O relatório não foi encontrado");
         }
+        try {
+            repository.deleteById(id);
+        } catch (Exception e) {
+            System.out.println("Error to delete report " + reportSearched.get().getId());
+        }
+
     }
 }

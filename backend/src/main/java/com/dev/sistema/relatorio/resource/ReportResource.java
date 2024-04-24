@@ -18,6 +18,7 @@ import com.dev.sistema.relatorio.model.Report;
 import com.dev.sistema.relatorio.service.ReportService;
 
 import jakarta.validation.Valid;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/reports")
@@ -52,19 +53,19 @@ public class ReportResource {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<ReportDTO> getReportById(@PathVariable UUID id) {
+  public ResponseEntity<ReportDTO> getReportById(@PathVariable Integer id) {
     ReportDTO report = service.getReportById(id);
     return ResponseEntity.status(HttpStatus.OK).body(report);
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<Void> updateReport(@RequestBody ReportDTO reportDto, @PathVariable UUID id) {
+  public ResponseEntity<Void> updateReport(@RequestBody ReportDTO reportDto, @PathVariable Integer id) {
     service.updateReport(reportDto, id);
     return ResponseEntity.status(HttpStatus.OK).build();
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<Void> deleteReport(@PathVariable UUID id) {
+  public ResponseEntity<Void> deleteReport(@PathVariable Integer id) {
     service.deleteReportById(id);
     return ResponseEntity.status(HttpStatus.OK).build();
   }

@@ -1,13 +1,12 @@
 package com.dev.sistema.relatorio.repository;
 
+import com.dev.sistema.relatorio.model.Attachment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import com.dev.sistema.relatorio.model.Report;
 
 import java.util.UUID;
 
 @Repository
-public interface ReportRepository extends JpaRepository<Report, Integer>{
-
+public interface AttachmentRepository extends JpaRepository<Attachment, Integer> {
+    Attachment findByTitle(String title);
 }
