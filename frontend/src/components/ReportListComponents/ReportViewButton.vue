@@ -15,7 +15,7 @@
           <v-icon @click="isActive = false">mdi-close</v-icon>
         </v-btn>
       </div>
-      <v-card-text class="my-2"> 
+      <v-card-text class="my-2">
         {{ descricao }}
       </v-card-text>
     </v-card>
@@ -25,7 +25,6 @@
 import { ref } from 'vue';
 
 defineProps(['titulo', 'itemId', 'descricao']);
-
 
 const isActive = ref(false);
 </script>

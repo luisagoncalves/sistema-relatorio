@@ -11,8 +11,9 @@ export const update = async (report: Report, id: string | string[] | number): Pr
   return await httpService.getAxiosClient().put(`${url}/${id}`, report);
 }
 
-export const getAll = async (page: number): Promise<any> => {
-  const response = await httpService.getAxiosClient().get(`${url}?page=${page}`);
+export const getAll = async (page: number = 0, pageSize: number = 5): Promise<any> => {
+  if(page>0) page--;
+  const response = await httpService.getAxiosClient().get(`${url}?page=${page}&pageSize=${pageSize}`);
   return response.data;
 }
 

@@ -32,7 +32,7 @@ import {Report} from "@/model/Report";
 import router from "@/router";
 import {useLayoutStore} from "@/store/layoutStore";
 
-const snackbarStore = useLayoutStore()
+const snackbarStore = useLayoutStore();
 const route = useRoute();
 
 const titleRules = [
@@ -95,7 +95,7 @@ const saveReport = async () => {
         snackbarStore.createSnackbar('error', 'Erro ao cadastrar relatório. Tente novamente.');
       }
     }
-  } 
+  }
 }
 
 const resetForm = () => {

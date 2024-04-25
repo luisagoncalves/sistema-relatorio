@@ -1,26 +1,18 @@
 <template>
-  <ReportListToolbar/>
+  <ReportListToolbar :total-elements="totalReports"/>
   <v-card flat class="mx-4">
-    <v-data-table
+    <v-data-table-server
       :headers="headers"
       :items="reports"
+      v-model:items-per-page="itemsPerPage"
+      :items-length="totalReports"
       :loading="loadingItems"
       loading-text="Buscando relatórios..."
       no-data-text="Nenhum relatório encontrado."
       items-per-page-text="Total por página"
-      :items-per-page="itemsPerPage"
-      :search="search">
-      
-      <template v-slot:top>
-        <v-text-field
-          v-model="search"
-          variant="outlined"
-          class="mx-4"
-          max-width="20"
-          placeholder="Pesquisa"
-          prepend-inner-icon="mdi-magnify"
-        ></v-text-field>
-      </template>
+      :page-text="pageText"
+      @update:options="listingReports"
+      :hover="true">
 
       <template v-slot:[`item.title`]="{item}">
         <ReportViewButton :titulo="item.title" :item-id="item.id" :descricao="item.description"/>
@@ -30,7 +22,7 @@
         <ReportEditButton :item-id="item.id" />
         <ReportDeleteButton :item-id="item.id" @delete-item="removeReport"/>
       </template>
-    </v-data-table>
+    </v-data-table-server>
   </v-card>
 </template>
 <script setup lang="ts">
@@ -39,30 +31,35 @@ import ReportDeleteButton from '@/components/ReportListComponents/ReportDeleteBu
 import ReportViewButton from '@/components/ReportListComponents/ReportViewButton.vue'
 import ReportListToolbar from '@/components/ReportListComponents/ReportListToolbar.vue';
 import {getAll, remove} from '@/services/reportService';
-import {onMounted, ref} from 'vue';
+import {ref} from 'vue';
+import {useLayoutStore} from "@/store/layoutStore";
+
+const snackbarStore = useLayoutStore();
 
 const loadingItems = ref(true);
+const totalReports = ref(0);
 const itemsPerPage = ref(5);
-const search = ref('');
 const reports = ref([]);
+const pageText = ref('');
 
 const headers: any = [
   {title: 'Título', value: 'id', key: 'title', align: 'start'},
   {title: 'Ações', value: 'id', key: 'acoes', sortable: false}
 ]
 
-const listingReports = async (page: number = 0) => {
-  const response = await getAll(page);
+const listingReports = async (filter?: any) => {
+  const response = await getAll(filter?.page, filter?.itemsPerPage);
   reports.value = response.content;
+  totalReports.value = response.totalElements;
   loadingItems.value = false;
+  pageText.value = `${response.numberOfElements} de ${itemsPerPage.value} `
 }
 
 const removeReport = async (id: number) => {
-  await remove(id);
+  const response = await remove(id);
+  if (response.status == 200) {
+    snackbarStore.createSnackbar('success', 'Relatório excluído com sucesso!');
+  }
   await listingReports();
 }
-
-onMounted(() => {
-  listingReports();
-})
 </script>
