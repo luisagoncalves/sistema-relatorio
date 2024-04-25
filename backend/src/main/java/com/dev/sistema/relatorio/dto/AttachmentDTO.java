@@ -15,5 +15,5 @@ public class AttachmentDTO {
     private String title;
     private String path;
     private String fileBase64;
-    private Integer reportId;
+    private UUID reportId;
 }

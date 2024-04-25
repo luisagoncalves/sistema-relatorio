@@ -43,12 +43,11 @@ public class ReportResource {
 
   @GetMapping
   public ResponseEntity<Page<Report>> getAllReports(
-    @RequestParam(defaultValue = "") String search,
+    @RequestParam(defaultValue = "search") String search,
     @RequestParam(defaultValue = "0") Integer page,
-    @RequestParam(defaultValue = "10") Integer pageSize
+    @RequestParam(defaultValue = "5") Integer pageSize
   ) {
     Page<Report> reportPage = service.getAllReports(search, page, pageSize);
-
     return ResponseEntity.ok().body(reportPage);
   }
 

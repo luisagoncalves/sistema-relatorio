@@ -2,6 +2,7 @@ package com.dev.sistema.relatorio.model;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -18,8 +19,8 @@ import lombok.Data;
 @NoArgsConstructor
 public class Report {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
     private String title;
     private String description;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "report")

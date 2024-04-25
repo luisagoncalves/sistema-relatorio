@@ -1,6 +1,7 @@
 package com.dev.sistema.relatorio.dto;
 
 import com.dev.sistema.relatorio.model.Attachment;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,8 +12,10 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReportDTO {
-    private Integer id;
+    private UUID id;
+    @NotBlank(message = "O título não pode ser vazio.")
     private String title;
+    @NotBlank(message = "A descrição não pode ser vazia.")
     private String description;
     private List<Attachment> attachments;
 }

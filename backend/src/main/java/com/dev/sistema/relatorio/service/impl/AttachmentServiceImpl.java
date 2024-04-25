@@ -49,7 +49,7 @@ public class AttachmentServiceImpl implements AttachmentService {
     }
 
     @Override
-    public List<AttachmentDTO> findByReportId(Integer reportId) {
+    public List<AttachmentDTO> findByReportId(UUID reportId) {
         Optional<Report> report = reportRepository.findById(reportId);
         List<Attachment> attachments = null;
         if (report.isPresent()) attachments = report.get().getAttachments();
