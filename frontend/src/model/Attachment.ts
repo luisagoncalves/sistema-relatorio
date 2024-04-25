@@ -1,11 +1,9 @@
 export class Attachment {
-  id: number | undefined
   description: string
-  reportId: number
+  fileBase64: string
 
-  constructor(id: number, description: string, reportId: number){
-    this.id = id;
+  constructor(description: string, fileBase64: string){
     this.description = description;
-    this.reportId = reportId;
+    this.fileBase64 = fileBase64;
   }
 }
