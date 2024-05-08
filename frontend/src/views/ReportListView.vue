@@ -15,7 +15,7 @@
       :hover="true">
 
       <template v-slot:[`item.title`]="{item}">
-        <ReportViewButton :titulo="item.title" :item-id="item.id" :descricao="item.description"/>
+        <ReportViewButton :titulo="item.title" :item-id="item.id" :descricao="item.description" :anexos="item.attachments"/>
       </template>
 
       <template v-slot:[`item.acoes`]="{item}">

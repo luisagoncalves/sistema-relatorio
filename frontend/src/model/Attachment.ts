@@ -1,9 +1,10 @@
 export class Attachment {
-  description: string
+  id?: number
+  type: string
   fileBase64: string
 
-  constructor(description: string, fileBase64: string){
-    this.description = description;
+  constructor(type: string, fileBase64: string){
+    this.type = type;
     this.fileBase64 = fileBase64;
   }
 }

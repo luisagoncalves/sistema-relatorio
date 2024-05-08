@@ -8,26 +8,10 @@
         <v-form ref="form">
           <v-text-field color="#3949AB" class="my-2" clearable label="Título" :rules="titleRules" required
                         v-model="report.title"/>
-          <v-textarea color="#3949AB" class="my-2" clearable label="Descrição" :counter="1000" :rules="descriptionRules"
+          <v-textarea color="#3949AB" class="my-2" clearable label="Descrição" :counter="255" :rules="descriptionRules"
                       required v-model="report.description"/>
           <v-file-input color="#3949AB" class="my-2" clearable label="Anexo" @v-model="report.attachments"
                         @change="uploadFile"/>
-          <v-table>
-            <thead>
-            <tr>
-              <th>Arquivo</th>
-              <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="file in report.attachments" :key="file.id">
-              <td>{{ file.description }}</td>
-              <td>
-                <v-btn icon="mdi-delete" flat @click="deleteFile(file.id)"></v-btn>
-              </td>
-            </tr>
-            </tbody>
-          </v-table>
         </v-form>
       </v-card-item>
 
@@ -89,10 +73,11 @@ const updateReport = () => {
 
 const getReportById = async (id: string | string[]) => {
   const reportSearched = await getById(id);
+  console.log(reportSearched.data)
   report.value.id = reportSearched.data.id;
   report.value.title = reportSearched.data.title;
   report.value.description = reportSearched.data.description;
-  report.value.attachments = reportSearched.data.attachments;
+  report.value.attachments = reportSearched.data.attachment;
 }
 
 const uploadFile = async (event: Event & { target: EventTarget & HTMLInputElement }) => {
@@ -107,26 +92,7 @@ const uploadFile = async (event: Event & { target: EventTarget & HTMLInputElemen
     reader.onerror = (error) => reject(error);
   });
 
-  report.value.attachments?.push(new Attachment(file.name, fileBase64));
-  console.log(report.value.attachments)
-}
-
-// const viewFile = async (file: Attachment) => {
-//
-// }
-
-// const converterBase64ParaBlob = (base64: string, tipoArquivo: any): Blob => {
-//   const tipo = tipoArquivo;
-//   const base64Decodificado = window.atob(base64);
-//   const uInt8Array = new Uint8Array(base64Decodificado.length);
-//   for (let i = 0; i < base64Decodificado.length; ++i) {
-//     uInt8Array[i] = base64Decodificado.charCodeAt(i);
-//   }
-//   return new Blob([uInt8Array], {type: tipo});
-// };
-
-const deleteFile = (file: number) => {
-  report.value.attachments?.splice(file, 1);
+  report.value.attachments?.push(new Attachment(file.type, fileBase64));
 }
 
 const form = ref();

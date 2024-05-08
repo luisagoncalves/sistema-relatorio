@@ -4,5 +4,5 @@ export class Report {
   id: number | undefined;
   title?: string;
   description?: string;
-  attachments?: Attachment[] = [];
+  attachments?: Attachment[];
 }
