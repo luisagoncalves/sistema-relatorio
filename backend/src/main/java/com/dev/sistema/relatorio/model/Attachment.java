@@ -24,10 +24,11 @@ public class Attachment{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    private String description;
     private String type;
     @Column(name = "base64", columnDefinition = "LONGVARCHAR")
     private String fileBase64;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "report", referencedColumnName = "id")
     Report report;

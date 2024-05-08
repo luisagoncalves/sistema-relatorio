@@ -63,7 +63,6 @@ public class ReportServiceImpl implements ReportService {
         if (reportSearched.isEmpty()) {
             throw new RuntimeException(Logger.getLogger("O relatório não foi encontrado").toString());
         }
-        //return mapper.toDto(reportSearched.get());
         return mapper.toDto(reportSearched.get());
     }
 
@@ -75,7 +74,7 @@ public class ReportServiceImpl implements ReportService {
             throw new RuntimeException("O relatório não foi encontrado");
         }
         try {
-            Report updatedReport = reportIO.mapTo(reportDto);
+            Report updatedReport = mapper.toEntity(reportDto);
             updatedReport.setId(reportSearched.get().getId());
             repository.save(updatedReport);
         } catch (RuntimeException e) {

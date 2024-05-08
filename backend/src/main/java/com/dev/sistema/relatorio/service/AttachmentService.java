@@ -1,7 +1,14 @@
 package com.dev.sistema.relatorio.service;
 
+import com.dev.sistema.relatorio.dto.AttachmentDTO;
 import com.dev.sistema.relatorio.model.Attachment;
 
+import java.util.List;
+import java.util.UUID;
+
 public interface AttachmentService {
-    Attachment saveAttachment(Attachment attachment);
+    void saveAttachment(Attachment attachment);
+    List<AttachmentDTO> findAllByReportId(UUID reportId);
+
+    List<AttachmentDTO> findAll();
 }

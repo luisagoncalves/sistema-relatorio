@@ -25,9 +25,6 @@ public class ReportResource {
     @PostMapping
     public ResponseEntity<Report> saveReport(@RequestBody @Valid ReportDTO reportDto) {
         Report savedReport = service.saveReport(reportDto);
-        if (!reportDto.getAttachments().isEmpty()){
-            System.out.println(reportDto.getAttachments().size());
-        }
         return ResponseEntity.status(HttpStatus.CREATED).body(savedReport);
     }
 
