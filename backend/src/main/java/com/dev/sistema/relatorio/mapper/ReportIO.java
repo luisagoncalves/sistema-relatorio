@@ -1,12 +1,14 @@
 package com.dev.sistema.relatorio.mapper;
 
-
 import com.dev.sistema.relatorio.dto.ReportDTO;
+import com.dev.sistema.relatorio.model.Attachment;
 import com.dev.sistema.relatorio.model.Report;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.spi.MappingContext;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component("reportIO")
 public class ReportIO {
@@ -16,11 +18,9 @@ public class ReportIO {
         @Override
         public Report convert(MappingContext<ReportDTO, Report> context) {
             ReportDTO reportDto = context.getSource();
-
             Report reportEntity = new Report();
             reportEntity.setTitle(reportDto.getTitle());
             reportEntity.setDescription(reportDto.getDescription());
-            reportEntity.setAttachments(reportDto.getAttachments());
             return reportEntity;
         }
     };

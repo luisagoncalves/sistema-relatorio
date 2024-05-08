@@ -1,13 +1,13 @@
 package com.dev.sistema.relatorio.mapper;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.dev.sistema.relatorio.dto.ReportDTO;
+
+import com.dev.sistema.relatorio.model.Report;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
-import com.dev.sistema.relatorio.model.Report;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class ReportMapper {

@@ -1,12 +1,17 @@
 package com.dev.sistema.relatorio.service.impl;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Logger;
 
+import com.dev.sistema.relatorio.dto.AttachmentDTO;
 import com.dev.sistema.relatorio.dto.ReportDTO;
+import com.dev.sistema.relatorio.mapper.AttachmentMapper;
 import com.dev.sistema.relatorio.mapper.ReportIO;
 import com.dev.sistema.relatorio.mapper.ReportMapper;
+import com.dev.sistema.relatorio.model.Attachment;
+import com.dev.sistema.relatorio.service.AttachmentService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,27 +25,35 @@ import jakarta.transaction.Transactional;
 @Service
 @Transactional
 public class ReportServiceImpl implements ReportService {
-
     private final ReportRepository repository;
-    private final ReportMapper reportMapper;
     private final ReportIO reportIO;
+    private final ReportMapper mapper;
+    private final AttachmentMapper attachmentMapper;
+    private final AttachmentService attachmentService;
 
-    public ReportServiceImpl(ReportRepository repository, ReportMapper reportMapper, ReportIO reportIO) {
+    public ReportServiceImpl(ReportRepository repository, ReportIO reportIO, ReportMapper mapper, AttachmentMapper attachmentMapper, AttachmentService attachmentService) {
         this.repository = repository;
-        this.reportMapper = reportMapper;
         this.reportIO = reportIO;
+        this.mapper = mapper;
+        this.attachmentMapper = attachmentMapper;
+        this.attachmentService = attachmentService;
     }
 
     @Override
     public Report saveReport(ReportDTO reportDto) {
-        Report reportEntity = reportMapper.toEntity(reportDto);
+        Report reportEntity = mapper.toEntity(reportDto);
+        List<AttachmentDTO> attachmentDTOList = reportDto.getAttachments();
+        for (AttachmentDTO dto : attachmentDTOList){
+            Attachment attachment = attachmentMapper.toEntity(dto);
+            attachment.setReport(reportEntity);
+            attachmentService.saveAttachment(attachment);
+        }
         return repository.save(reportEntity);
     }
 
     @Override
     public Page<Report> getAllReports(String search, Integer page, Integer pageSize) {
         Pageable pageable = PageRequest.of(page, pageSize);
-//        return repository.findAllBySearch(search, pageable);
         return repository.findAll(pageable);
     }
 
@@ -50,7 +63,8 @@ public class ReportServiceImpl implements ReportService {
         if (reportSearched.isEmpty()) {
             throw new RuntimeException(Logger.getLogger("O relatório não foi encontrado").toString());
         }
-        return reportMapper.toDto(reportSearched.get());
+        //return mapper.toDto(reportSearched.get());
+        return mapper.toDto(reportSearched.get());
     }
 
     @Override
@@ -74,7 +88,7 @@ public class ReportServiceImpl implements ReportService {
     public void deleteReportById(UUID id) {
         Optional<Report> reportSearched = repository.findById(id);
         if (reportSearched.isEmpty()) {
-            throw new RuntimeException(Logger.getLogger("O relatório não foi encontrado").toString());
+            Logger.getLogger("O relatório não foi encontrado");
         }
         try {
             repository.deleteById(id);

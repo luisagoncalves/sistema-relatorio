@@ -31,6 +31,4 @@ public class Report {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    public Report(Integer id, String title, String description, List<Attachment> attachments) {
-    }
 }

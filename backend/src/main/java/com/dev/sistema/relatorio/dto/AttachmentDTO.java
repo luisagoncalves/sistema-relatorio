@@ -12,8 +12,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class AttachmentDTO {
     private Integer id;
-    private String title;
-    private String path;
+    private String type;
     private String fileBase64;
     private UUID reportId;
 }
