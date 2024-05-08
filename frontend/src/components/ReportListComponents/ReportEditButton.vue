@@ -7,7 +7,5 @@
 </template>
 
 <script setup lang="ts">
-import { useReportStore } from '@/store/reportStore';
-
 defineProps(['itemId']);
 </script>

@@ -27,7 +27,7 @@
 
 <script setup lang="ts">
 import {useRoute} from 'vue-router';
-import {onBeforeMount, ref} from "vue";
+import {onBeforeMount, Ref, ref} from "vue";
 import {getById, save, update} from "@/services/reportService";
 import {Report} from "@/model/Report";
 import router from "@/router";
@@ -59,6 +59,7 @@ const createReport = () => {
   reportSend.title = report.value.title;
   reportSend.description = report.value.description;
   reportSend.attachments = report.value.attachments;
+  console.log(reportSend.attachments)
   return reportSend;
 }
 
@@ -80,6 +81,8 @@ const getReportById = async (id: string | string[]) => {
   report.value.attachments = reportSearched.data.attachment;
 }
 
+const filesAttached: Ref<File[]> = ref([]);
+
 const uploadFile = async (event: Event & { target: EventTarget & HTMLInputElement }) => {
   if (!event.target || !event.target.files) return;
 
@@ -91,8 +94,7 @@ const uploadFile = async (event: Event & { target: EventTarget & HTMLInputElemen
     reader.onload = () => resolve(reader.result);
     reader.onerror = (error) => reject(error);
   });
-
-  report.value.attachments?.push(new Attachment(file.type, fileBase64));
+  report.value.attachments?.push(new Attachment(file.name, file.type, fileBase64));
 }
 
 const form = ref();

@@ -20,7 +20,7 @@
         <v-table>
           <thead>
           <tr>
-            <th>Arquivo</th>
+            <th>Anexos</th>
             <th></th>
           </tr>
           </thead>
@@ -49,17 +49,16 @@ defineProps(['titulo', 'itemId', 'descricao', 'anexos']);
 const isActive = ref(false);
 
 const openFile = async (file: Attachment) => {
-  if (file.id == undefined){
+  if (file.id != undefined) {
     file.type = file.fileBase64.substring(file.fileBase64.indexOf(':') + 1, file.fileBase64.indexOf(';'));
     file.fileBase64 = file.fileBase64.substring(file.fileBase64.indexOf(',') + 1);
   }
-
   let blob = converterBase64ParaBlob(file.fileBase64, file.type);
   const blobUrl = URL.createObjectURL(blob);
   return window.open(blobUrl);
 }
 
-const converterBase64ParaBlob = (base64: string, tipoArquivo: any): Blob => {
+const converterBase64ParaBlob = (base64: string, tipoArquivo: string): Blob => {
   const tipo = tipoArquivo;
   const base64Decodificado = window.atob(base64);
   const uInt8Array = new Uint8Array(base64Decodificado.length);
