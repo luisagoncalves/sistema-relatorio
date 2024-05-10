@@ -6,20 +6,45 @@
 
       <v-card-item>
         <v-form ref="form">
-          <v-text-field color="#3949AB" class="my-2" clearable label="Título" :rules="titleRules" required
+          <v-text-field color="primary" class="my-2" clearable label="Título" :rules="titleRules" required
                         v-model="report.title"/>
-          <v-textarea color="#3949AB" class="my-2" clearable label="Descrição" :counter="255" :rules="descriptionRules"
+          <v-textarea color="primary" class="my-2" clearable label="Descrição" :counter="255" :rules="descriptionRules"
                       required v-model="report.description"/>
-          <v-file-input color="#3949AB" class="my-2" clearable label="Anexo" @v-model="report.attachments"
-                        @change="uploadFile"/>
+          <v-file-input color="primary" class="my-2" label="Anexo"
+                        @change="uploadFile" chips/>
+
+          <v-data-table
+            :headers="headers"
+            :items="report.attachments"
+            item-value="description"
+            no-data-text="Nenhum arquivo anexado."
+          >
+            <template v-slot:[`item.description`]="{item}">
+              <v-tooltip text="Baixar" location="top">
+                <template v-slot:activator="{ props }">
+                  <span v-bind="props">{{ item.description }}</span>
+                </template>
+              </v-tooltip>
+            </template>
+
+            <template v-slot:[`item.id`]="{item}">
+              <v-tooltip text="Excluir" location="top">
+                <template v-slot:activator="{ props }">
+                  <v-btn icon="mdi-delete" size="small" variant="text" color="red" href="#"
+                         @click="removeFile(item, item.id)" v-bind="props"/>
+                </template>
+              </v-tooltip>
+            </template>
+            <template #bottom></template>
+          </v-data-table>
         </v-form>
       </v-card-item>
 
       <v-card-actions>
-        <v-btn type="reset" class="mt-2" text="Limpar" @click="resetForm()"/>
+        <v-btn type="reset" class="mt-2" text="Limpar" color="warning" variant="tonal" @click="resetForm()"/>
         <v-spacer/>
-        <v-btn type="reset" class="mt-2" text="Cancelar" to="/reports"/>
-        <v-btn class="mt-2" text="Salvar" @click="saveReport()"/>
+        <v-btn type="reset" class="mt-2 mr-4" text="Cancelar" color="error" variant="tonal" to="/reports"/>
+        <v-btn class="mt-2" text="Salvar" @click="saveReport()" variant="tonal" color="success"/>
       </v-card-actions>
     </v-card>
   </v-container>
@@ -27,13 +52,19 @@
 
 <script setup lang="ts">
 import {useRoute} from 'vue-router';
-import {onBeforeMount, Ref, ref} from "vue";
+import {onBeforeMount, ref} from "vue";
 import {getById, save, update} from "@/services/reportService";
 import {Report} from "@/model/Report";
 import router from "@/router";
 import {useLayoutStore} from "@/store/layoutStore";
 import {Attachment} from "@/model/Attachment";
+import {deleteById, getAttachmentByReportId} from "@/services/attachmentService";
 
+
+const headers = [
+  {title: 'Anexos', value: 'description'},
+  {value: 'id'}
+];
 const snackbarStore = useLayoutStore();
 const route = useRoute();
 
@@ -59,7 +90,6 @@ const createReport = () => {
   reportSend.title = report.value.title;
   reportSend.description = report.value.description;
   reportSend.attachments = report.value.attachments;
-  console.log(reportSend.attachments)
   return reportSend;
 }
 
@@ -74,14 +104,21 @@ const updateReport = () => {
 
 const getReportById = async (id: string | string[]) => {
   const reportSearched = await getById(id);
-  console.log(reportSearched.data)
   report.value.id = reportSearched.data.id;
   report.value.title = reportSearched.data.title;
   report.value.description = reportSearched.data.description;
-  report.value.attachments = reportSearched.data.attachment;
+  report.value.attachments = reportSearched.data.attachments;
 }
 
-const filesAttached: Ref<File[]> = ref([]);
+const getAttachments = async (reportId: string | string[]) => {
+  const attachmentSearched = await getAttachmentByReportId(reportId);
+  return attachmentSearched.data;
+}
+
+const removeFile = async (file: any, id: any) => {
+  report.value.attachments?.splice(file, 1);
+  await deleteById(id);
+}
 
 const uploadFile = async (event: Event & { target: EventTarget & HTMLInputElement }) => {
   if (!event.target || !event.target.files) return;
@@ -94,12 +131,13 @@ const uploadFile = async (event: Event & { target: EventTarget & HTMLInputElemen
     reader.onload = () => resolve(reader.result);
     reader.onerror = (error) => reject(error);
   });
+
   report.value.attachments?.push(new Attachment(file.name, file.type, fileBase64));
 }
 
 const form = ref();
 const saveReport = async () => {
-  if (form.value.validate()) {
+  if (await form.value.validate()) {
     if (route.params['id'] != 'novo') {
       const response = await update(updateReport(), route.params['id'])
       if (response.status == 200) {
@@ -120,14 +158,19 @@ const saveReport = async () => {
   }
 }
 
-const resetForm = () => {
+const resetForm = async () => {
   form.value.reset();
+  report.value.attachments?.filter(async (attachment) => {
+    await deleteById(attachment.id).then(() => {
+    });
+  })
 }
 
 onBeforeMount(async () => {
   const reportId = route.params['id'];
   if (reportId != 'novo') {
     await getReportById(reportId);
+    await getAttachments(reportId);
   }
 })
 </script>

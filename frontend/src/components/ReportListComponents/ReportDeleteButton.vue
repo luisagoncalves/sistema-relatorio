@@ -6,7 +6,7 @@
           <v-btn
             v-bind="mergeProps(dialog, tooltip)"
             icon="mdi-delete"
-            flat />
+            variant="text" color="red" size="small"/>
         </template>
       </v-tooltip>
     </template>

@@ -4,6 +4,8 @@
     <v-chip>{{ props.totalElements }}</v-chip>
     <v-spacer/>
     <v-btn
+      variant="tonal"
+      color="success"
       prepend-icon="mdi-plus"
       text="Novo"
       to="/form/novo"

@@ -1,7 +1,7 @@
 <template>
   <v-tooltip text="Editar" location="top">
     <template v-slot:activator="{ props }">
-      <v-btn v-bind="props" icon="mdi-pencil" flat :to="`/form/${itemId}`" />
+      <v-btn v-bind="props" icon="mdi-pencil" variant="text" color="blue" size="small" :to="`/form/${itemId}`" />
     </template>
   </v-tooltip>
 </template>
