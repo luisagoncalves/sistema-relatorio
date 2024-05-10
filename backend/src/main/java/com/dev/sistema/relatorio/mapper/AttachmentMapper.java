@@ -1,9 +1,7 @@
 package com.dev.sistema.relatorio.mapper;
 
 import com.dev.sistema.relatorio.dto.AttachmentDTO;
-import com.dev.sistema.relatorio.dto.ReportDTO;
 import com.dev.sistema.relatorio.model.Attachment;
-import com.dev.sistema.relatorio.model.Report;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 

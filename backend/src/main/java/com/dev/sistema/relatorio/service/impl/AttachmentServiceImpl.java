@@ -4,8 +4,8 @@ import com.dev.sistema.relatorio.dto.AttachmentDTO;
 import com.dev.sistema.relatorio.mapper.AttachmentMapper;
 import com.dev.sistema.relatorio.model.Attachment;
 import com.dev.sistema.relatorio.repository.AttachmentRepository;
-import com.dev.sistema.relatorio.repository.ReportRepository;
 import com.dev.sistema.relatorio.service.AttachmentService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,12 +15,10 @@ import java.util.UUID;
 public class AttachmentServiceImpl implements AttachmentService {
 
     private final AttachmentRepository repository;
-    private final ReportRepository reportRepository;
     private final AttachmentMapper mapper;
 
-    public AttachmentServiceImpl(AttachmentRepository repository, ReportRepository reportRepository, AttachmentMapper mapper) {
+    public AttachmentServiceImpl(AttachmentRepository repository, AttachmentMapper mapper) {
         this.repository = repository;
-        this.reportRepository = reportRepository;
         this.mapper = mapper;
     }
 
@@ -36,9 +34,9 @@ public class AttachmentServiceImpl implements AttachmentService {
     }
 
     @Override
-    public List<AttachmentDTO> findAll() {
-        List<Attachment> attachments = repository.findAll();
-        return mapper.toReportDtoList(attachments);
+    @Transactional
+    public void deleteById(Integer id) {
+        repository.deleteById(id);
     }
 }
 

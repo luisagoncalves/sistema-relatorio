@@ -3,7 +3,7 @@ package com.dev.sistema.relatorio.resource;
 import com.dev.sistema.relatorio.dto.AttachmentDTO;
 import com.dev.sistema.relatorio.model.Attachment;
 import com.dev.sistema.relatorio.service.AttachmentService;
-import org.springframework.http.HttpStatus;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,13 +19,13 @@ public class AttachmentResource {
         this.service = service;
     }
     @GetMapping("/{reportId}")
-    public ResponseEntity<List<AttachmentDTO>> getAllAttachmentsByReportId(@PathVariable UUID reportId) {
+    public ResponseEntity<List<AttachmentDTO>> getAllAttachmentsByReportId(@PathVariable @Valid UUID reportId) {
         List<AttachmentDTO> attachments = service.findAllByReportId(reportId);
         return ResponseEntity.ok(attachments);
     }
-    @GetMapping
-    public ResponseEntity<List<AttachmentDTO>> getAllAttachments(){
-        List<AttachmentDTO> attachments = service.findAll();
-        return ResponseEntity.ok(attachments);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAttachment(@PathVariable Integer id){
+        service.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 }

@@ -9,6 +9,5 @@ import java.util.UUID;
 public interface AttachmentService {
     void saveAttachment(Attachment attachment);
     List<AttachmentDTO> findAllByReportId(UUID reportId);
-
-    List<AttachmentDTO> findAll();
+    void deleteById(Integer id);
 }

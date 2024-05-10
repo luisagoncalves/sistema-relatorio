@@ -45,7 +45,7 @@ public class ReportResource {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateReport(@RequestBody ReportDTO reportDto, @PathVariable UUID id) {
+    public ResponseEntity<Void> updateReport(@RequestBody @Valid ReportDTO reportDto, @PathVariable UUID id) {
         service.updateReport(reportDto, id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }

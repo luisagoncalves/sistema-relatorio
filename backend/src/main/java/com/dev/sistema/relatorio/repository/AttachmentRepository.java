@@ -10,8 +10,6 @@ import java.util.List;
 
 @Repository
 public interface AttachmentRepository extends JpaRepository<Attachment, Integer> {
-    @Query(value = "SELECT 'attachment' FROM Attachment WHERE 'attachment.reportId' = :reportId")
+    @Query(value = "SELECT * FROM attachment WHERE attachment.report = ?1", nativeQuery = true)
     List<Attachment> findAllByReportId(@Param("reportId") String reportId);
-
-
 }
