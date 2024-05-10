@@ -1,5 +1,17 @@
 <template>
   <ReportListToolbar :total-elements="totalReports"/>
+
+  <div class="d-flex justify-end">
+    <v-text-field max-width="550" class="ma-2" variant="underlined" clearable placeholder="Pesquisar título" label="Pesquisar" v-model:model-value="search">
+      <template v-slot:prepend>
+        <v-icon
+          color="priamry"
+          size="small"
+          icon="mdi-magnify"
+        />
+      </template>
+    </v-text-field>
+  </div>
   <v-card flat class="mx-4">
     <v-data-table-server
       :headers="headers"
@@ -12,8 +24,8 @@
       items-per-page-text="Total por página"
       :page-text="pageText"
       @update:options="listingReports"
-      :hover="true">
-
+      :hover="true"
+      :search="search">
       <template v-slot:[`item.title`]="{item}">
         <ReportViewButton :titulo="item.title" :item-id="item.id" :descricao="item.description" />
       </template>
@@ -41,6 +53,7 @@ const totalReports = ref(0);
 const itemsPerPage = ref(5);
 const reports = ref([]);
 const pageText = ref('');
+const search = ref('');
 
 const headers: any = [
   {title: 'Título', value: 'id', key: 'title', align: 'start'},
@@ -48,7 +61,7 @@ const headers: any = [
 ]
 
 const listingReports = async (filter?: any) => {
-  const response = await getAll(filter?.page, filter?.itemsPerPage);
+  const response = await getAll(filter?.search, filter?.page, filter?.itemsPerPage);
   reports.value = response.content;
   totalReports.value = response.totalElements;
   loadingItems.value = false;
