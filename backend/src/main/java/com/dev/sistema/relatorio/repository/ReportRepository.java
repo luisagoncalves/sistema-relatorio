@@ -14,6 +14,6 @@ import java.util.UUID;
 
 @Repository
 public interface ReportRepository extends JpaRepository<Report, UUID>{
-    @Query(value = "SELECT * FROM report WHERE report.title LIKE ?1 OR report.description LIKE ?1", nativeQuery = true)
+    @Query(value = "SELECT * FROM report WHERE report.title LIKE %?1%", nativeQuery = true)
     Page<Report> findAllBySearch(@Param("search") String search, Pageable pageable);
 }
