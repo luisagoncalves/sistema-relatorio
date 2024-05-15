@@ -1,41 +1,40 @@
 <template>
   <ReportListToolbar :total-elements="totalReports"/>
 
-  <div class="d-flex justify-end">
-    <v-text-field max-width="550" class="ma-2" variant="underlined" clearable placeholder="Pesquisar título" label="Pesquisar" v-model:model-value="search">
-      <template v-slot:prepend>
-        <v-icon
-          color="priamry"
-          size="small"
-          icon="mdi-magnify"
-        />
-      </template>
-    </v-text-field>
-  </div>
-  <v-card flat class="mx-4">
-    <v-data-table-server
-      :headers="headers"
-      :items="reports"
-      v-model:items-per-page="itemsPerPage"
-      :items-length="totalReports"
-      :loading="loadingItems"
-      loading-text="Buscando relatórios..."
-      no-data-text="Nenhum relatório encontrado."
-      items-per-page-text="Total por página"
-      :page-text="pageText"
-      @update:options="listingReports"
-      :hover="true"
-      :search="search">
-      <template v-slot:[`item.title`]="{item}">
-        <ReportViewButton :titulo="item.title" :item-id="item.id" :descricao="item.description" />
-      </template>
+<!--  <div class="d-flex justify-end">-->
+<!--    <v-text-field max-width="550" class="ma-2" variant="underlined" clearable placeholder="Pesquisar título"-->
+<!--                  label="Pesquisar" v-model="search">-->
+<!--      <template v-slot:prepend>-->
+<!--        <v-icon-->
+<!--          color="priamry"-->
+<!--          size="small"-->
+<!--          icon="mdi-magnify"-->
+<!--        />-->
+<!--      </template>-->
+<!--    </v-text-field>-->
+<!--  </div>-->
+  <v-data-table-server
+    :headers="headers"
+    :items="reports"
+    v-model:items-per-page="itemsPerPage"
+    :items-length="totalReports"
+    :loading="loadingItems"
+    loading-text="Buscando relatórios..."
+    no-data-text="Nenhum relatório encontrado."
+    items-per-page-text="Total por página"
+    :page-text="pageText"
+    :search="search"
+    @update:options="listingReports"
+    :hover="true">
+    <template v-slot:[`item.title`]="{item}">
+      <ReportViewButton :titulo="item.title" :item-id="item.id" :descricao="item.description"/>
+    </template>
 
-      <template v-slot:[`item.acoes`]="{item}">
-        <ReportEditButton :item-id="item.id" />
-        <ReportDeleteButton :item-id="item.id" @delete-item="removeReport"/>
-      </template>
-    </v-data-table-server>
-  </v-card>
+    <template v-slot:[`item.acoes`]="{item}">
+      <ReportEditButton :item-id="item.id"/>
+      <ReportDeleteButton :item-id="item.id" @delete-item="removeReport"/>
+    </template>
+  </v-data-table-server>
 </template>
 <script setup lang="ts">
 import ReportEditButton from '@/components/ReportListComponents/ReportEditButton.vue'
@@ -65,7 +64,7 @@ const listingReports = async (filter?: any) => {
   reports.value = response.content;
   totalReports.value = response.totalElements;
   loadingItems.value = false;
-  pageText.value = `${response.numberOfElements} de ${itemsPerPage.value} `
+  pageText.value = `${response.numberOfElements} de ${itemsPerPage.value}`
 }
 
 const removeReport = async (id: number) => {
