@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class AttachmentServiceImpl implements AttachmentService {
+class AttachmentServiceImpl implements AttachmentService {
 
     private final AttachmentRepository repository;
     private final AttachmentMapper mapper;

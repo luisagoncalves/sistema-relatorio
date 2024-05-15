@@ -24,7 +24,7 @@ import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
-public class ReportServiceImpl implements ReportService {
+class ReportServiceImpl implements ReportService {
     private final ReportRepository repository;
     private final ReportMapper mapper;
     private final AttachmentMapper attachmentMapper;
