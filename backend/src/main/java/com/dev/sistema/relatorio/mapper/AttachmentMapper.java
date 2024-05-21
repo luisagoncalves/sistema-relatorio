@@ -2,32 +2,41 @@ package com.dev.sistema.relatorio.mapper;
 
 import com.dev.sistema.relatorio.dto.AttachmentDTO;
 import com.dev.sistema.relatorio.model.Attachment;
-import org.modelmapper.ModelMapper;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
 public class AttachmentMapper {
-    private final ModelMapper mapper;
-
-    public AttachmentMapper(ModelMapper mapper) {
-        this.mapper = mapper;
+    public static Attachment toEntity(AttachmentDTO dto){
+        return Attachment.builder()
+                .id(dto.getId())
+                .description(dto.getDescription())
+                .type(dto.getType())
+                .fileBase64(dto.getFileBase64())
+                .build();
     }
 
-    public Attachment toEntity(AttachmentDTO dto){
-        return mapper.map(dto, Attachment.class);
+    public static AttachmentDTO toDto(Attachment entity){
+        return AttachmentDTO.builder()
+                .id(entity.getId())
+                .reportId(entity.getReport().getId())
+                .description(entity.getDescription())
+                .type(entity.getType())
+                .fileBase64(entity.getFileBase64())
+                .build();
     }
 
-    public AttachmentDTO toDto(Attachment entity){
-        return mapper.map(entity, AttachmentDTO.class);
-    }
-
-    public List<AttachmentDTO> toReportDtoList(List<Attachment> attachments) {
+    public static List<AttachmentDTO> toDtoList(List<Attachment> attachments) {
         return attachments
                 .stream()
-                .map(this::toDto)
+                .map(AttachmentMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    public static List<Attachment> toEntityList(List<AttachmentDTO> dtoList) {
+        return dtoList
+                .stream()
+                .map(AttachmentMapper::toEntity)
                 .collect(Collectors.toList());
     }
 }

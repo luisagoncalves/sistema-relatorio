@@ -2,17 +2,9 @@ package com.dev.sistema.relatorio.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import java.io.File;
-import java.net.URLDecoder;
-import java.nio.file.Files;
-import java.util.Base64;
 import java.util.UUID;
-import java.util.logging.Logger;
 
 @Table(name = "attachment")
 @Entity
@@ -20,10 +12,11 @@ import java.util.logging.Logger;
 @EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Attachment{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private UUID id;
     private String description;
     private String type;
     @Column(name = "base64", columnDefinition = "LONGVARCHAR")

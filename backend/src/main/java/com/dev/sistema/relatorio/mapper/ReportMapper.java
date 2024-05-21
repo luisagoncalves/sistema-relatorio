@@ -1,34 +1,32 @@
 package com.dev.sistema.relatorio.mapper;
 
 import com.dev.sistema.relatorio.dto.ReportDTO;
-
 import com.dev.sistema.relatorio.model.Report;
-import org.modelmapper.ModelMapper;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
-public class ReportMapper {
-    private final ModelMapper mapper;
-
-    public ReportMapper(ModelMapper mapper) {
-        this.mapper = mapper;
+public interface ReportMapper {
+    static Report toEntity(ReportDTO reportDto) {
+        return Report.builder()
+                .title(reportDto.getTitle())
+                .description(reportDto.getDescription())
+                .build();
     }
 
-    public Report toEntity(ReportDTO reportDto) {
-        return mapper.map(reportDto, Report.class);
+    static ReportDTO toDto(Report report) {
+        return ReportDTO.builder()
+                .id(report.getId())
+                .title(report.getTitle())
+                .description(report.getDescription())
+                .attachments(AttachmentMapper.toDtoList(report.getAttachments()))
+                .build();
     }
 
-    public ReportDTO toDto(Report report) {
-        return mapper.map(report, ReportDTO.class);
-    }
-
-    public List<ReportDTO> toReportDtoList(List<Report> reports) {
+    static List<ReportDTO> toDtoList(List<Report> reports) {
         return reports
                 .stream()
-                .map(this::toDto)
+                .map(ReportMapper::toDto)
                 .collect(Collectors.toList());
     }
 }

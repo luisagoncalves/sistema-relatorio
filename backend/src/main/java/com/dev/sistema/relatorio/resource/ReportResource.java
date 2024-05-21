@@ -14,7 +14,7 @@ import com.dev.sistema.relatorio.service.ReportService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/reports")
+@RequestMapping("/api/reports")
 @CrossOrigin(origins = "http://localhost:3000")
 public class ReportResource {
     private final ReportService service;

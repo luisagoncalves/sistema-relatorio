@@ -5,7 +5,6 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Logger;
 
-import com.dev.sistema.relatorio.dto.AttachmentDTO;
 import com.dev.sistema.relatorio.dto.ReportDTO;
 import com.dev.sistema.relatorio.mapper.AttachmentMapper;
 import com.dev.sistema.relatorio.mapper.ReportMapper;
@@ -23,45 +22,54 @@ import com.dev.sistema.relatorio.service.ReportService;
 import jakarta.transaction.Transactional;
 
 @Service
-@Transactional
-class ReportServiceImpl implements ReportService {
+public class ReportServiceImpl implements ReportService {
     private final ReportRepository repository;
-    private final ReportMapper mapper;
-    private final AttachmentMapper attachmentMapper;
     private final AttachmentService attachmentService;
 
-    public ReportServiceImpl(ReportRepository repository, ReportMapper mapper, AttachmentMapper attachmentMapper, AttachmentService attachmentService) {
+    public ReportServiceImpl(ReportRepository repository, AttachmentService attachmentService) {
         this.repository = repository;
-        this.mapper = mapper;
-        this.attachmentMapper = attachmentMapper;
         this.attachmentService = attachmentService;
     }
 
     @Override
     public Report saveReport(@Valid ReportDTO reportDto) {
-        Report reportEntity = mapper.toEntity(reportDto);
-        List<AttachmentDTO> attachmentDTOList = reportDto.getAttachments();
-        for (AttachmentDTO dto : attachmentDTOList){
-            Attachment attachment = attachmentMapper.toEntity(dto);
-            attachment.setReport(reportEntity);
-            attachmentService.saveAttachment(attachment);
+        Report reportEntity = ReportMapper.toEntity(reportDto);
+        Report savedReport;
+        try {
+            savedReport = repository.save(reportEntity);
+
+            List<Attachment> attachmentList = AttachmentMapper.toEntityList(reportDto.getAttachments());
+            attachmentList.forEach(attachment -> {
+                attachment.setReport(savedReport);
+                attachmentService.saveAttachment(attachment);
+            });
+
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to save report", e);
         }
-        return repository.save(reportEntity);
+
+        return savedReport;
     }
 
     @Override
     public Page<Report> getAllReports(String search, Integer page, Integer pageSize) {
         Pageable pageable = PageRequest.of(page, pageSize);
-        return repository.findAll(pageable);
+        Page<Report> reports;
+        try {
+            reports = repository.findAll(pageable);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to find report list.", e);
+        }
+        return reports;
     }
 
     @Override
     public ReportDTO getReportById(UUID id) {
         Optional<Report> reportSearched = repository.findById(id);
         if (reportSearched.isEmpty()) {
-            throw new RuntimeException(Logger.getLogger("O relatório não foi encontrado").toString());
+            throw new RuntimeException("O relatório não foi encontrado.");
         }
-        return mapper.toDto(reportSearched.get());
+        return ReportMapper.toDto(reportSearched.get());
     }
 
     @Override
@@ -71,18 +79,21 @@ class ReportServiceImpl implements ReportService {
         if (reportSearched.isEmpty()) {
             throw new RuntimeException("O relatório não foi encontrado");
         }
+
+        Report updatedReport = ReportMapper.toEntity(reportDto);
+        updatedReport.setId(reportSearched.get().getId());
         try {
-            Report updatedReport = mapper.toEntity(reportDto);
-            updatedReport.setId(reportSearched.get().getId());
-            List<AttachmentDTO> attachmentDTOList = reportDto.getAttachments();
-            for (AttachmentDTO dto : attachmentDTOList){
-                Attachment attachment = attachmentMapper.toEntity(dto);
-                attachment.setReport(updatedReport);
-                attachmentService.saveAttachment(attachment);
-            }
             repository.save(updatedReport);
-        } catch (RuntimeException e) {
-            Logger.getLogger("Erro ao atualizar relatório " + reportSearched.get().getId());
+
+            List<Attachment> attachmentList = AttachmentMapper.toEntityList(reportDto.getAttachments());
+            attachmentList.forEach(attachment -> {
+                if (attachment.getId() == null) {
+                    attachment.setReport(updatedReport);
+                    attachmentService.saveAttachment(attachment);
+                }
+            });
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to update report.");
         }
     }
 

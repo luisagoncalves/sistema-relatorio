@@ -1,7 +1,6 @@
 package com.dev.sistema.relatorio.resource;
 
 import com.dev.sistema.relatorio.dto.AttachmentDTO;
-import com.dev.sistema.relatorio.model.Attachment;
 import com.dev.sistema.relatorio.service.AttachmentService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/attachments")
+@RequestMapping("/api/attachments")
 @CrossOrigin(origins = "http://localhost:3000")
 public class AttachmentResource {
     private final AttachmentService service;
@@ -24,7 +23,7 @@ public class AttachmentResource {
         return ResponseEntity.ok(attachments);
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAttachment(@PathVariable Integer id){
+    public ResponseEntity<Void> deleteAttachment(@PathVariable UUID id){
         service.deleteById(id);
         return ResponseEntity.ok().build();
     }

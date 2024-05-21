@@ -7,9 +7,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Repository
-public interface AttachmentRepository extends JpaRepository<Attachment, Integer> {
+public interface AttachmentRepository extends JpaRepository<Attachment, UUID> {
     @Query(value = "SELECT * FROM attachment WHERE attachment.report = ?1", nativeQuery = true)
     List<Attachment> findAllByReportId(@Param("reportId") String reportId);
 }

@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -17,6 +18,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Report {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -25,10 +27,10 @@ public class Report {
     private String description;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "report")
     private List<Attachment> attachments;
-    @Column(updatable = false)
     @CreationTimestamp
+    @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime createdAt;
     @UpdateTimestamp
+    @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime updatedAt;
-
 }

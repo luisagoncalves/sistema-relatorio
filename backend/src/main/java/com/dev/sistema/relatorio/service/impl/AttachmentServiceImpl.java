@@ -15,11 +15,9 @@ import java.util.UUID;
 class AttachmentServiceImpl implements AttachmentService {
 
     private final AttachmentRepository repository;
-    private final AttachmentMapper mapper;
 
-    public AttachmentServiceImpl(AttachmentRepository repository, AttachmentMapper mapper) {
+    public AttachmentServiceImpl(AttachmentRepository repository) {
         this.repository = repository;
-        this.mapper = mapper;
     }
 
     @Override
@@ -30,12 +28,12 @@ class AttachmentServiceImpl implements AttachmentService {
     @Override
     public List<AttachmentDTO> findAllByReportId(UUID reportId) {
         List<Attachment> attachments = repository.findAllByReportId(reportId.toString());
-        return mapper.toReportDtoList(attachments);
+        return AttachmentMapper.toDtoList(attachments);
     }
 
     @Override
     @Transactional
-    public void deleteById(Integer id) {
+    public void deleteById(UUID id) {
         repository.deleteById(id);
     }
 }
