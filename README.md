@@ -9,7 +9,7 @@ Na camada de apresentação, foi desenvolvido duas telas simples para que o usu�
 * <strong>RF2:</strong> O sistema deve permitir a pesquisa de um ou mais relatórios com base no título do relatório.
   
 #### Tecnologias e Ferramentas
-* <strong>Back-end: </strong>Java 17, Spring Boot , H2 Database, Swagger
+* <strong>Back-end: </strong>Java 17, Spring Boot 3, H2 Database, Swagger
 * <strong>Front-end: </strong>Typescript, Vue.js 3, Vuetify
 * <strong>Desenvolvimento: </strong>IntelliJ IDEA e WebStorm
   
