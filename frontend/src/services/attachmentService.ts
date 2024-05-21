@@ -1,6 +1,6 @@
 import httpService from "./httpService";
 
-const url = "/attachments";
+const url = "/api/attachments";
 
 export const getAttachmentByReportId = async (id: string | string[]): Promise<any> => {
   return await httpService.getAxiosClient().get(`${url}/${id}`);

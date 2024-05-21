@@ -20,11 +20,7 @@
             no-data-text="Nenhum arquivo anexado."
           >
             <template v-slot:[`item.description`]="{item}">
-              <v-tooltip text="Baixar" location="top">
-                <template v-slot:activator="{ props }">
-                  <span v-bind="props">{{ item.description }}</span>
-                </template>
-              </v-tooltip>
+              <span>{{ item.description }}</span>
             </template>
 
             <template v-slot:[`item.id`]="{item}">
@@ -161,9 +157,9 @@ const saveReport = async () => {
 const resetForm = async () => {
   form.value.reset();
   report.value.attachments?.filter(async (attachment) => {
-    await deleteById(attachment.id).then(() => {
-    });
-  })
+    await deleteById(attachment.id);
+  });
+  report.value.attachments = [];
 }
 
 onBeforeMount(async () => {

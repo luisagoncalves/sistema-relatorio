@@ -1,7 +1,7 @@
 import {Report} from "@/model/Report";
 import httpService from "./httpService";
 
-const url = "/reports"
+const url = "/api/reports"
 
 export const save = async (report: Report): Promise<any> => {
   return await httpService.getAxiosClient().post(`${url}`, report);
