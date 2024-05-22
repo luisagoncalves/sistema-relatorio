@@ -25,7 +25,7 @@ public class Report {
     private UUID id;
     private String title;
     private String description;
-    @OneToMany(mappedBy = "report")
+    @OneToMany(mappedBy = "report", cascade = CascadeType.ALL)
     private List<Attachment> attachments;
     @CreationTimestamp
     @Column(columnDefinition = "TIMESTAMP")
