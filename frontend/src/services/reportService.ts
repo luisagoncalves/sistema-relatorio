@@ -1,14 +1,19 @@
 import {Report} from "@/model/Report";
 import httpService from "./httpService";
+import {useLayoutStore} from "@/store/layoutStore";
 
 const url = "/api/reports"
 
 export const save = async (report: Report): Promise<any> => {
-  return await httpService.getAxiosClient().post(`${url}`, report);
+  return await httpService.getAxiosClient().post(`${url}`, report).catch(() => {
+    useLayoutStore().createSnackbar('error', 'Preencha os campos obrigatórios!');
+  });
 }
 
 export const update = async (report: Report, id: string | string[] | number): Promise<any> => {
-  return await httpService.getAxiosClient().put(`${url}/${id}`, report);
+  return await httpService.getAxiosClient().put(`${url}/${id}`, report).catch(() => {
+    useLayoutStore().createSnackbar('error', 'Preencha os campos obrigatórios!');
+  });
 }
 
 export const getAll = async (search: string = '', page: number = 0, pageSize: number = 5): Promise<any> => {

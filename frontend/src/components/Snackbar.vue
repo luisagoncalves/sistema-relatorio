@@ -1,5 +1,5 @@
 <template>
-   <v-snackbar location="top" v-model="snackbar.isActive" :color="snackbar.color" >
+   <v-snackbar location="top" v-model="snackbar.isActive" :color="snackbar.color" timeout="1000">
       {{ snackbar.text }}
       <template v-slot:actions>
         <v-btn

@@ -139,16 +139,12 @@ const saveReport = async () => {
       if (response.status == 200) {
         snackbarStore.createSnackbar('success', 'Relatório atualizado com sucesso!');
         await router.push('/reports');
-      } else {
-        snackbarStore.createSnackbar('error', 'Erro ao atualizar relatório. Tente novamente.');
       }
     } else {
       const response = await save(createReport());
       if (response.status == 201) {
         snackbarStore.createSnackbar('success', 'Relatório cadastrado com sucesso!');
         await router.push('/reports');
-      } else {
-        snackbarStore.createSnackbar('error', 'Erro ao cadastrar relatório. Tente novamente.');
       }
     }
   }
