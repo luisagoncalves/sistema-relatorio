@@ -1,18 +1,13 @@
 <template>
   <ReportListToolbar :total-elements="totalReports"/>
 
-<!--  <div class="d-flex justify-end">-->
-<!--    <v-text-field max-width="550" class="ma-2" variant="underlined" clearable placeholder="Pesquisar título"-->
-<!--                  label="Pesquisar" v-model="search">-->
-<!--      <template v-slot:prepend>-->
-<!--        <v-icon-->
-<!--          color="priamry"-->
-<!--          size="small"-->
-<!--          icon="mdi-magnify"-->
-<!--        />-->
-<!--      </template>-->
-<!--    </v-text-field>-->
-<!--  </div>-->
+  <div class="d-flex justify-end">
+    <v-text-field max-width="550" clearable placeholder="Título ou descrição" variant="underlined"
+                  label="Pesquisar" @keydown.enter="searchingTitle" v-model="search">
+    </v-text-field>
+
+    <v-btn icon="mdi-magnify" variant="tonal" color="primary" @click="searchingTitle" class="ma-4" />
+  </div>
   <v-data-table-server
     :headers="headers"
     :items="reports"
@@ -53,6 +48,7 @@ const itemsPerPage = ref(5);
 const reports = ref([]);
 const pageText = ref('');
 const search = ref('');
+const titleSearched = ref('');
 
 const headers: any = [
   {title: 'Título', value: 'id', key: 'title', align: 'start'},
@@ -65,6 +61,10 @@ const listingReports = async (filter?: any) => {
   totalReports.value = response.totalElements;
   loadingItems.value = false;
   pageText.value = `${response.numberOfElements} de ${itemsPerPage.value}`
+}
+
+const searchingTitle = () => {
+  search.value = titleSearched.value;
 }
 
 const removeReport = async (id: number) => {
