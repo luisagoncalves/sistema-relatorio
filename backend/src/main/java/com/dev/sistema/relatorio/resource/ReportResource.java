@@ -32,7 +32,7 @@ public class ReportResource {
 
     @GetMapping
     public ResponseEntity<Page<Report>> getAllReports(
-            @RequestParam(defaultValue = "search") String search,
+            @RequestParam(required = false) String search,
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "5") Integer pageSize
     ) {

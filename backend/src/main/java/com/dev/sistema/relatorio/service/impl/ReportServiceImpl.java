@@ -55,7 +55,11 @@ public class ReportServiceImpl implements ReportService {
         Pageable pageable = PageRequest.of(page, pageSize);
         Page<Report> reports;
         try {
-            reports = repository.findAll(pageable);
+            if (!search.isEmpty()){
+                reports = repository.findAllBySearch(search, pageable);
+            } else {
+                reports = repository.findAll(pageable);
+            }
         } catch (Exception e) {
             throw new RuntimeException("Failed to find report list.", e);
         }
