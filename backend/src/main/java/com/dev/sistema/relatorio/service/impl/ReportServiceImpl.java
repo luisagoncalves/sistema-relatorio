@@ -43,7 +43,6 @@ public class ReportServiceImpl implements ReportService {
                 attachment.setReport(savedReport);
                 attachmentService.saveAttachment(attachment);
             });
-
         } catch (Exception e) {
             throw new RuntimeException("Failed to save report", e);
         }
@@ -67,7 +66,7 @@ public class ReportServiceImpl implements ReportService {
     public ReportDTO getReportById(UUID id) {
         Optional<Report> reportSearched = repository.findById(id);
         if (reportSearched.isEmpty()) {
-            throw new RuntimeException("O relatório não foi encontrado.");
+            throw new RuntimeException("Failed to find report.");
         }
         return ReportMapper.toDto(reportSearched.get());
     }
@@ -77,11 +76,12 @@ public class ReportServiceImpl implements ReportService {
     public void updateReport(ReportDTO reportDto, UUID id) {
         Optional<Report> reportSearched = repository.findById(id);
         if (reportSearched.isEmpty()) {
-            throw new RuntimeException("O relatório não foi encontrado");
+            throw new RuntimeException("Failed to find report.");
         }
 
         Report updatedReport = ReportMapper.toEntity(reportDto);
         updatedReport.setId(reportSearched.get().getId());
+        updatedReport.setCreatedAt(reportSearched.get().getCreatedAt());
         try {
             repository.save(updatedReport);
 
@@ -102,12 +102,12 @@ public class ReportServiceImpl implements ReportService {
     public void deleteReportById(UUID id) {
         Optional<Report> reportSearched = repository.findById(id);
         if (reportSearched.isEmpty()) {
-            Logger.getLogger("O relatório não foi encontrado");
+            Logger.getLogger("Failed to find report");
         }
         try {
             repository.deleteById(id);
         } catch (Exception e) {
-            reportSearched.ifPresent(report -> Logger.getLogger("Erro ao deletar relatório " + report.getId()));
+            reportSearched.ifPresent(report -> Logger.getLogger("Failed to delete report."));
         }
     }
 }

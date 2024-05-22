@@ -27,7 +27,7 @@ class AttachmentServiceImpl implements AttachmentService {
 
     @Override
     public List<AttachmentDTO> findAllByReportId(UUID reportId) {
-        List<Attachment> attachments = repository.findAllByReportId(reportId.toString());
+        List<Attachment> attachments = repository.findAllByReportId(reportId);
         return AttachmentMapper.toDtoList(attachments);
     }
 

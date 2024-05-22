@@ -3,6 +3,7 @@ package com.dev.sistema.relatorio.resource;
 import java.util.UUID;
 
 import com.dev.sistema.relatorio.dto.ReportDTO;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/api/reports")
 @CrossOrigin(origins = "http://localhost:3000")
+@Tag(name = "Report", description = "Endpoints da entidade Report")
 public class ReportResource {
     private final ReportService service;
     public ReportResource(ReportService service) {

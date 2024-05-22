@@ -2,6 +2,7 @@ package com.dev.sistema.relatorio.resource;
 
 import com.dev.sistema.relatorio.dto.AttachmentDTO;
 import com.dev.sistema.relatorio.service.AttachmentService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/attachments")
 @CrossOrigin(origins = "http://localhost:3000")
+@Tag(name = "Attachment", description = "Endpoints da entidade Attachment")
 public class AttachmentResource {
     private final AttachmentService service;
     public AttachmentResource(AttachmentService service) {

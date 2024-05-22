@@ -11,6 +11,6 @@ import java.util.UUID;
 
 @Repository
 public interface AttachmentRepository extends JpaRepository<Attachment, UUID> {
-    @Query(value = "SELECT * FROM attachment WHERE attachment.report = ?1", nativeQuery = true)
-    List<Attachment> findAllByReportId(@Param("reportId") String reportId);
+    @Query(value = "SELECT * FROM attachment WHERE attachment.report_id = ?1", nativeQuery = true)
+    List<Attachment> findAllByReportId(@Param("reportId") UUID reportId);
 }

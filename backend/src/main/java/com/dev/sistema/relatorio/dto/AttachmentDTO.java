@@ -10,8 +10,6 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
 public class AttachmentDTO {
     private UUID id;

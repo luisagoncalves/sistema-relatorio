@@ -11,6 +11,8 @@ public interface ReportMapper {
         return Report.builder()
                 .title(reportDto.getTitle())
                 .description(reportDto.getDescription())
+                .createdAt(reportDto.getCreatedAt())
+                .updatedAt(reportDto.getUpdatedAt())
                 .build();
     }
 
@@ -20,6 +22,8 @@ public interface ReportMapper {
                 .title(report.getTitle())
                 .description(report.getDescription())
                 .attachments(AttachmentMapper.toDtoList(report.getAttachments()))
+                .createdAt(report.getCreatedAt())
+                .updatedAt(report.getUpdatedAt())
                 .build();
     }
 

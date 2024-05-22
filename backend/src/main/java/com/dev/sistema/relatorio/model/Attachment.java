@@ -19,10 +19,10 @@ public class Attachment{
     private UUID id;
     private String description;
     private String type;
-    @Column(name = "base64", columnDefinition = "LONGVARCHAR")
+    @Column(name = "base64", columnDefinition = "TEXT")
     private String fileBase64;
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name = "report", referencedColumnName = "id")
-    Report report;
+    @JoinColumn(name = "report_id")
+    private Report report;
 }
