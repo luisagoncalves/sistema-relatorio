@@ -20,7 +20,7 @@ Na camada de apresentação, foi desenvolvido duas telas simples para que o usu�
   ```bash
   mvn spring-boot:run
   ```
-  * URL para documentação da API no Swagger: http://localhost:8080/swagger-ui/index.html
+  * URL para documentação da API no Swagger: http://localhost:8080/
 * <strong>Front-end</strong>
   * Para baixar e instalar as dependências do projeto: 
   ```bash
