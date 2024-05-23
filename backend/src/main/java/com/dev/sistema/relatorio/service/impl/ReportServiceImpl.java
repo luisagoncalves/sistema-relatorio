@@ -22,7 +22,7 @@ import com.dev.sistema.relatorio.service.ReportService;
 import jakarta.transaction.Transactional;
 
 @Service
-public class ReportServiceImpl implements ReportService {
+class ReportServiceImpl implements ReportService {
     private final ReportRepository repository;
     private final AttachmentService attachmentService;
 
@@ -55,13 +55,13 @@ public class ReportServiceImpl implements ReportService {
         Pageable pageable = PageRequest.of(page, pageSize);
         Page<Report> reports;
         try {
-            if (!search.isEmpty()){
+            if(search != null){
                 reports = repository.findAllBySearch(search, pageable);
             } else {
                 reports = repository.findAll(pageable);
             }
         } catch (Exception e) {
-            throw new RuntimeException("Failed to find report list.", e);
+            throw new RuntimeException(e);
         }
         return reports;
     }

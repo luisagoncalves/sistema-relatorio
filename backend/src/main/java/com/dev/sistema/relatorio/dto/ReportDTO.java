@@ -15,9 +15,9 @@ import java.util.UUID;
 @Builder
 public class ReportDTO {
     private UUID id;
-    @NotBlank(message = "O título não pode ser vazio.")
+    @NotBlank(message = "The title cannot be blank.")
     private String title;
-    @NotBlank(message = "A descrição não pode ser vazia.")
+    @NotBlank(message = "The description cannot be blank.")
     private String description;
     private List<AttachmentDTO> attachments;
     private LocalDateTime createdAt;

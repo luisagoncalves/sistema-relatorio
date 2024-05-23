@@ -13,12 +13,11 @@ import java.util.UUID;
 @Builder
 public class AttachmentDTO {
     private UUID id;
-    @NotNull
+    @NotNull(message = "The report id cannot be null.")
     private UUID reportId;
-    @NotBlank
+    @NotBlank(message = "The description cannot be blank.")
     private String description;
-    @NotBlank
     private String type;
-    @NotBlank
+    @NotBlank(message = "The description cannot be blank.")
     private String fileBase64;
 }
