@@ -21,7 +21,7 @@
     :search="search"
     @update:options="listingReports"
     :hover="true">
-    <template v-slot:[`item.title`]="{item}">
+    <template v-slot:[`item.id`]="{item}">
       <ReportViewButton :titulo="item.title" :item-id="item.id" :descricao="item.description"/>
     </template>
 
@@ -38,9 +38,6 @@ import ReportViewButton from '@/components/ReportListComponents/ReportViewButton
 import ReportListToolbar from '@/components/ReportListComponents/ReportListToolbar.vue';
 import {getAll, remove} from '@/services/reportService';
 import {ref} from 'vue';
-import {useLayoutStore} from "@/store/layoutStore";
-
-const snackbarStore = useLayoutStore();
 
 const loadingItems = ref(true);
 const totalReports = ref(0);
@@ -51,7 +48,7 @@ const search = ref('');
 const titleSearched = ref('');
 
 const headers: any = [
-  {title: 'Título', value: 'id', key: 'title', align: 'start'},
+  {title: 'Título', value: 'id', key: 'id', align: 'start'},
   {title: 'Ações', value: 'id', key: 'acoes', sortable: false}
 ]
 
@@ -68,10 +65,8 @@ const searchingTitle = () => {
 }
 
 const removeReport = async (id: number) => {
-  const response = await remove(id);
-  if (response.status == 200) {
-    snackbarStore.createSnackbar('success', 'Relatório excluído com sucesso!');
-  }
-  await listingReports();
+  await remove(id).then(async () => {
+    await listingReports();
+  });
 }
 </script>

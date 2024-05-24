@@ -40,7 +40,7 @@
         <v-btn type="reset" class="mt-2" text="Limpar" color="warning" variant="tonal" @click="resetForm()"/>
         <v-spacer/>
         <v-btn type="reset" class="mt-2 mr-4" text="Cancelar" color="error" variant="tonal" to="/reports"/>
-        <v-btn class="mt-2" text="Salvar" @click="saveReport()" variant="tonal" color="success"/>
+        <v-btn class="mt-2" text="Salvar" @click="saveReport()" variant="tonal" color="success" />
       </v-card-actions>
     </v-card>
   </v-container>
@@ -51,8 +51,6 @@ import {useRoute} from 'vue-router';
 import {onBeforeMount, ref} from "vue";
 import {getById, save, update} from "@/services/reportService";
 import {Report} from "@/model/Report";
-import router from "@/router";
-import {useLayoutStore} from "@/store/layoutStore";
 import {Attachment} from "@/model/Attachment";
 import {deleteById, getAttachmentByReportId} from "@/services/attachmentService";
 
@@ -61,7 +59,6 @@ const headers = [
   {title: 'Anexos', value: 'description'},
   {value: 'id'}
 ];
-const snackbarStore = useLayoutStore();
 const route = useRoute();
 
 const titleRules = [
@@ -135,17 +132,9 @@ const form = ref();
 const saveReport = async () => {
   if (await form.value.validate()) {
     if (route.params['id'] != 'novo') {
-      const response = await update(updateReport(), route.params['id'])
-      if (response.status == 200) {
-        snackbarStore.createSnackbar('success', 'Relatório atualizado com sucesso!');
-        await router.push('/reports');
-      }
+      await update(updateReport(), route.params['id'])
     } else {
-      const response = await save(createReport());
-      if (response.status == 201) {
-        snackbarStore.createSnackbar('success', 'Relatório cadastrado com sucesso!');
-        await router.push('/reports');
-      }
+      await save(createReport());
     }
   }
 }

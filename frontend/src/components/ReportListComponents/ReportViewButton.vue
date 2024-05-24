@@ -1,7 +1,7 @@
 <template>
   <v-tooltip text="Visualizar" location="top">
     <template v-slot:activator="{ props }">
-      <v-btn v-bind="props" variant="text" @click="isActive = true" color="primary">{{ titulo }}</v-btn>
+      <v-btn v-bind="props" variant="text" @click="isActive = true" color="primary"> {{ titulo }}</v-btn>
     </template>
   </v-tooltip>
   <v-dialog max-width="800" v-model="isActive">
@@ -73,7 +73,7 @@ const converterBase64ParaBlob = (base64: string, tipoArquivo: string): Blob => {
 const attachments = ref([]);
 const getAttachments = async (id: any) => {
   const response = await getAttachmentByReportId(id);
-  if (response.status) {
+  if (response.status == 200) {
     attachments.value = response.data;
   }
 }
