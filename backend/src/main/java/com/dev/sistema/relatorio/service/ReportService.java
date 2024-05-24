@@ -13,7 +13,7 @@ public interface ReportService {
 
     ReportDTO getReportById(UUID id);
 
-    Page<Report> getAllReports(String search, Integer page, Integer pageSize);
+    Page<ReportDTO> getAllReports(String search, Integer page, Integer pageSize);
 
     void deleteReportById(UUID id);
 }

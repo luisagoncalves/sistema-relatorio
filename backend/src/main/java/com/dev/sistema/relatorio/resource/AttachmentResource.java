@@ -25,20 +25,16 @@ public class AttachmentResource {
     }
 
     @GetMapping("/{reportId}")
-    public ResponseEntity<?> getAllAttachmentsByReportId(@PathVariable @Valid UUID reportId) {
-        try {
-            List<AttachmentDTO> attachments = service.findAllByReportId(reportId);
-            return ResponseEntity.ok(attachments);
-        }  catch (Exception exception) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exception.getMessage());
-        }
+    public ResponseEntity<List<AttachmentDTO>> getAllAttachmentsByReportId(@PathVariable @Valid UUID reportId) {
+        List<AttachmentDTO> attachments = service.findAllByReportId(reportId);
+        return ResponseEntity.ok().body(attachments);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteAttachment(@PathVariable UUID id) {
+    public ResponseEntity<?> deleteAttachment(@PathVariable UUID id) {
         try {
             service.deleteById(id);
-            return ResponseEntity.ok("File deleted.");
+            return ResponseEntity.ok().build();
         } catch (Exception exception) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exception.getMessage());
         }

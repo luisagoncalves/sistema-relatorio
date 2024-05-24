@@ -3,10 +3,12 @@ package com.dev.sistema.relatorio.resource;
 import java.util.UUID;
 
 import com.dev.sistema.relatorio.dto.ReportDTO;
+import com.dev.sistema.relatorio.exception.ReportFormInvalidFieldsException;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import com.dev.sistema.relatorio.model.Report;
@@ -20,6 +22,7 @@ import jakarta.validation.Valid;
 @Tag(name = "Report", description = "Endpoints da entidade Report")
 public class ReportResource {
     private final ReportService service;
+
     public ReportResource(ReportService service) {
         this.service = service;
     }
@@ -31,13 +34,13 @@ public class ReportResource {
     }
 
     @GetMapping
-    public ResponseEntity<Page<Report>> getAllReports(
+    public ResponseEntity<Page<ReportDTO>> getAllReports(
             @RequestParam(required = false) String search,
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "5") Integer pageSize
     ) {
-        Page<Report> reportPage = service.getAllReports(search, page, pageSize);
-        return ResponseEntity.ok().body(reportPage);
+        Page<ReportDTO> reportPage = service.getAllReports(search, page, pageSize);
+        return ResponseEntity.status(HttpStatus.OK).body(reportPage);
     }
 
     @GetMapping("/{id}")
@@ -47,13 +50,13 @@ public class ReportResource {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateReport(@RequestBody @Valid ReportDTO reportDto, @PathVariable UUID id) {
+    public ResponseEntity<?> updateReport(@RequestBody @Valid ReportDTO reportDto, @PathVariable UUID id) {
         service.updateReport(reportDto, id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteReport(@PathVariable UUID id) {
+    public ResponseEntity<?> deleteReport(@PathVariable UUID id) {
         service.deleteReportById(id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
