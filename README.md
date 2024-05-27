@@ -46,5 +46,8 @@ Na camada de apresentação, foi desenvolvido duas telas simples para que o usu�
   ```bash
   npm run dev
   ```
+### Funcionamento do sistema
+https://github.com/luisagoncalves/sistema-relatorio/assets/72532673/bf0b46ce-e25c-4f0c-8fdf-1ec809347d57
+
 
 
